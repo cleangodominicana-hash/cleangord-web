@@ -1,0 +1,17 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  copy: string;
+}
+
+const { eyebrow, title, copy } = Astro.props;
+---
+
+<section class="hero-grid border-b border-brand-border/70">
+  <div class="section-shell section-pad">
+    <span class="eyebrow">{eyebrow}</span>
+    <h1 class="mt-4 max-w-4xl text-4xl font-black tracking-tight text-brand-navy sm:text-5xl">{title}</h1>
+    <p class="mt-5 max-w-3xl text-lg leading-8 text-brand-slate">{copy}</p>
+  </div>
+</section>

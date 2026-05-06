@@ -1,0 +1,14 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import ServicesGrid from '../../components/ServicesGrid.astro';
+import CTASection from '../../components/CTASection.astro';
+import { t } from '../../i18n/ui';
+const locale = 'es';
+const dict = t(locale);
+---
+<MainLayout title={dict.pages.services.title} description={dict.pages.services.description} locale={locale} routeKey="services">
+  <PageIntro eyebrow={dict.pages.services.heroEyebrow} title={dict.pages.services.heroTitle} copy={dict.pages.services.heroCopy} />
+  <ServicesGrid locale={locale} />
+  <CTASection locale={locale} />
+</MainLayout>

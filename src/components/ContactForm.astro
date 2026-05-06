@@ -1,0 +1,78 @@
+---
+import { Mail, MapPin, PhoneCall } from '@lucide/astro';
+import type { Locale } from '../i18n/config';
+import { siteSettings, t } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+---
+
+<section class="section-shell section-pad grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+  <div class="space-y-6">
+    <span class="eyebrow">{dict.contact.directTitle}</span>
+    <h2 class="text-3xl font-black tracking-tight text-brand-navy sm:text-4xl">{dict.contact.title}</h2>
+    <p class="max-w-xl text-lg leading-8 text-brand-slate">{dict.contact.copy}</p>
+    <div class="space-y-4">
+      <div class="card-surface flex items-start gap-4 p-5">
+        <span class="rounded-2xl bg-brand-mint p-3 text-brand-green"><PhoneCall class="h-5 w-5" /></span>
+        <div>
+          <p class="font-bold text-brand-navy">Phone</p>
+          <a class="text-brand-slate" href={siteSettings.phoneHref}>{siteSettings.phoneDisplay}</a>
+        </div>
+      </div>
+      <div class="card-surface flex items-start gap-4 p-5">
+        <span class="rounded-2xl bg-brand-mint p-3 text-brand-green"><Mail class="h-5 w-5" /></span>
+        <div>
+          <p class="font-bold text-brand-navy">Email</p>
+          <a class="text-brand-slate" href={`mailto:${siteSettings.email}`}>{siteSettings.email}</a>
+        </div>
+      </div>
+      <div class="card-surface flex items-start gap-4 p-5">
+        <span class="rounded-2xl bg-brand-mint p-3 text-brand-green"><MapPin class="h-5 w-5" /></span>
+        <div>
+          <p class="font-bold text-brand-navy">Address</p>
+          <p class="text-brand-slate">{siteSettings.address}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-surface p-8 sm:p-10">
+    <div class="max-w-2xl">
+      <p class="text-sm font-semibold uppercase tracking-[0.18em] text-brand-green">{dict.contact.formTitle}</p>
+      <p class="mt-3 text-base leading-7 text-brand-slate">{dict.contact.formCopy}</p>
+    </div>
+    <form class="mt-8 grid gap-5 sm:grid-cols-2" method="post">
+      <label class="space-y-2 text-sm font-semibold text-brand-navy">
+        <span>{dict.contact.fields.name}</span>
+        <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.name} type="text" name="name" />
+      </label>
+      <label class="space-y-2 text-sm font-semibold text-brand-navy">
+        <span>{dict.contact.fields.email}</span>
+        <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.email} type="email" name="email" />
+      </label>
+      <label class="space-y-2 text-sm font-semibold text-brand-navy">
+        <span>{dict.contact.fields.phone}</span>
+        <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.phone} type="tel" name="phone" />
+      </label>
+      <label class="space-y-2 text-sm font-semibold text-brand-navy">
+        <span>{dict.contact.fields.service}</span>
+        <select class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" name="service">
+          <option value="">Select a service</option>
+          {dict.services.map((service) => <option value={service.title}>{service.title}</option>)}
+        </select>
+      </label>
+      <label class="space-y-2 text-sm font-semibold text-brand-navy sm:col-span-2">
+        <span>{dict.contact.fields.message}</span>
+        <textarea class="min-h-36 w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.message} name="message"></textarea>
+      </label>
+      <button type="submit" class="inline-flex w-full items-center justify-center rounded-full bg-brand-green px-6 py-4 text-sm font-bold text-white transition hover:bg-brand-navy sm:w-fit">
+        {dict.buttons.sendRequest}
+      </button>
+    </form>
+  </div>
+</section>

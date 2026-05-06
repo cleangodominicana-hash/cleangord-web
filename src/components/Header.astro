@@ -1,0 +1,165 @@
+---
+import { Menu, X } from '@lucide/astro';
+import type { Locale } from '../i18n/config';
+import { getPath, getWhatsappUrl, t } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  pathname: string;
+}
+
+const { locale, pathname } = Astro.props;
+const dict = t(locale);
+
+const switchLabel = locale === 'en' ? 'Español' : 'English';
+
+const routeMap: Record<string, string> = {
+  '/': '/es/',
+  '/services/': '/es/servicios/',
+  '/coverage/': '/es/cobertura/',
+  '/about/': '/es/nosotros/',
+  '/contact/': '/es/contacto/',
+  '/es/': '/',
+  '/es/servicios/': '/services/',
+  '/es/cobertura/': '/coverage/',
+  '/es/nosotros/': '/about/',
+  '/es/contacto/': '/contact/',
+};
+
+const alternatePath = routeMap[pathname] ?? (locale === 'en' ? '/es/' : '/');
+const currentFlag = locale === 'en' ? '/images/do.svg' : '/images/us.svg';
+const whatsappIcon = '/images/whatsapp.svg';
+const isotipo = '/images/isotipo.png';
+---
+
+<header class="sticky top-0 z-50 border-b border-brand-border/70 bg-white/90 backdrop-blur-xl">
+  <div class="section-shell flex min-h-20 items-center justify-between gap-6">
+    <a href={getPath(locale, 'home')} class="flex shrink-0 items-center gap-3">
+      <img
+        src={isotipo}
+        alt="CleanGo logo"
+        class="h-11 w-11 rounded-2xl object-contain"
+      />
+      <span>
+        <span class="block text-xl font-black leading-none tracking-tight text-brand-navy">
+          Clean<span class="text-brand-green">Go</span>
+        </span>
+        <span class="mt-1 block text-[11px] font-semibold uppercase tracking-[0.28em] text-brand-slate">
+          Punta Cana
+        </span>
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-7 lg:flex">
+      {dict.nav.map((item) => {
+        const href = getPath(locale, item.key);
+        const active = pathname === href;
+        return (
+          <a
+            href={href}
+            class:list={[
+              'text-sm font-semibold transition',
+              active ? 'text-brand-navy' : 'text-brand-slate hover:text-brand-navy'
+            ]}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </nav>
+
+    <div class="hidden items-center gap-3 lg:flex">
+      <a
+        href={alternatePath}
+        class="inline-flex items-center gap-2 rounded-full border border-brand-border px-4 py-2 text-sm font-semibold text-brand-navy hover:border-brand-blue hover:text-brand-blue"
+      >
+        <img
+          src={currentFlag}
+          alt={switchLabel}
+          class="h-4 w-4 rounded-full object-cover"
+        />
+        {switchLabel}
+      </a>
+
+      <a
+        href={getWhatsappUrl(locale)}
+        target="_blank"
+        rel="noreferrer"
+        class="inline-flex items-center gap-2 rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-navy"
+      >
+        <img
+          src={whatsappIcon}
+          alt="WhatsApp"
+          class="h-4 w-4 object-contain"
+        />
+        {dict.buttons.whatsapp}
+      </a>
+    </div>
+
+    <button
+      type="button"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-brand-border text-brand-navy lg:hidden"
+      data-menu-button
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      aria-label="Toggle navigation menu"
+    >
+      <Menu class="h-5 w-5" data-menu-open />
+      <X class="hidden h-5 w-5" data-menu-close />
+    </button>
+  </div>
+
+  <div id="mobile-nav" class="hidden border-t border-brand-border bg-white lg:hidden" data-mobile-nav>
+    <div class="section-shell flex flex-col gap-2 py-4">
+      {dict.nav.map((item) => (
+        <a
+          href={getPath(locale, item.key)}
+          class="rounded-2xl px-4 py-3 text-sm font-semibold text-brand-navy hover:bg-brand-soft"
+        >
+          {item.label}
+        </a>
+      ))}
+
+      <a
+        href={alternatePath}
+        class="inline-flex items-center gap-2 rounded-2xl px-4 py-3 text-sm font-semibold text-brand-navy hover:bg-brand-soft"
+      >
+        <img
+          src={currentFlag}
+          alt={switchLabel}
+          class="h-4 w-4 rounded-full object-cover"
+        />
+        {switchLabel}
+      </a>
+
+      <a
+        href={getWhatsappUrl(locale)}
+        target="_blank"
+        rel="noreferrer"
+        class="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-white"
+      >
+        <img
+          src={whatsappIcon}
+          alt="WhatsApp"
+          class="h-4 w-4 object-contain"
+        />
+        {dict.buttons.whatsapp}
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const button = document.querySelector('[data-menu-button]');
+  const nav = document.querySelector('[data-mobile-nav]');
+  const openIcon = document.querySelector('[data-menu-open]');
+  const closeIcon = document.querySelector('[data-menu-close]');
+
+  button?.addEventListener('click', () => {
+    const isOpen = button.getAttribute('aria-expanded') === 'true';
+    button.setAttribute('aria-expanded', String(!isOpen));
+    nav?.classList.toggle('hidden');
+    openIcon?.classList.toggle('hidden');
+    closeIcon?.classList.toggle('hidden');
+  });
+</script>

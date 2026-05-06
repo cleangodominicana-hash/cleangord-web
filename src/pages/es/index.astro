@@ -1,0 +1,24 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Hero from '../../components/Hero.astro';
+import ServicesGrid from '../../components/ServicesGrid.astro';
+import WhyChooseUs from '../../components/WhyChooseUs.astro';
+import CoverageBlock from '../../components/CoverageBlock.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
+import Testimonials from '../../components/Testimonials.astro';
+import FAQ from '../../components/FAQ.astro';
+import CTASection from '../../components/CTASection.astro';
+import { t } from '../../i18n/ui';
+const locale = 'es';
+const dict = t(locale);
+---
+<MainLayout title={dict.pages.home.title} description={dict.pages.home.description} locale={locale} routeKey="home">
+  <Hero locale={locale} />
+  <ServicesGrid locale={locale} />
+  <WhyChooseUs locale={locale} />
+  <CoverageBlock locale={locale} />
+  <BeforeAfter locale={locale} />
+  <Testimonials locale={locale} />
+  <FAQ locale={locale} />
+  <CTASection locale={locale} />
+</MainLayout>

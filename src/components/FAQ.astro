@@ -1,0 +1,35 @@
+---
+import { ChevronDown } from '@lucide/astro';
+import type { Locale } from '../i18n/config';
+import { t } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+---
+
+<section class="section-pad">
+  <div class="section-shell">
+    <div class="mx-auto max-w-3xl text-center">
+      <span class="eyebrow">{dict.faqSection.eyebrow}</span>
+      <h2 class="mt-4 text-3xl font-black tracking-tight text-brand-navy sm:text-4xl">{dict.faqSection.title}</h2>
+    </div>
+
+    <div class="mx-auto mt-12 max-w-4xl space-y-4">
+      {dict.faqs.map((faq, index) => (
+        <details class="group card-surface p-6" open={index === 0}>
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-lg font-bold text-brand-navy">
+            {faq.question}
+            <span class="rounded-full bg-brand-mint p-2 text-brand-green transition group-open:rotate-180">
+              <ChevronDown class="h-4 w-4" />
+            </span>
+          </summary>
+          <p class="mt-4 max-w-3xl text-base leading-7 text-brand-slate">{faq.answer}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

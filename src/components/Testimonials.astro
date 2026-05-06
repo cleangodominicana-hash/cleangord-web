@@ -1,0 +1,34 @@
+---
+import { Quote } from '@lucide/astro';
+import type { Locale } from '../i18n/config';
+import { t } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+---
+
+<section class="section-pad bg-brand-soft/70">
+  <div class="section-shell">
+    <div class="mx-auto max-w-3xl text-center">
+      <span class="eyebrow">{dict.testimonialsSection.eyebrow}</span>
+      <h2 class="mt-4 text-3xl font-black tracking-tight text-brand-navy sm:text-4xl">{dict.testimonialsSection.title}</h2>
+    </div>
+
+    <div class="mt-12 grid gap-6 lg:grid-cols-3">
+      {dict.testimonials.map((testimonial) => (
+        <article class="card-surface p-8">
+          <Quote class="h-8 w-8 text-brand-green" />
+          <p class="mt-6 text-lg leading-8 text-brand-slate">“{testimonial.quote}”</p>
+          <div class="mt-6 border-t border-brand-border pt-5">
+            <p class="font-bold text-brand-navy">{testimonial.author}</p>
+            <p class="text-sm text-brand-slate">{testimonial.role}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

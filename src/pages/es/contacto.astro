@@ -1,0 +1,12 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import { t } from '../../i18n/ui';
+const locale = 'es';
+const dict = t(locale);
+---
+<MainLayout title={dict.pages.contact.title} description={dict.pages.contact.description} locale={locale} routeKey="contact">
+  <PageIntro eyebrow={dict.pages.contact.heroEyebrow} title={dict.pages.contact.heroTitle} copy={dict.pages.contact.heroCopy} />
+  <ContactForm locale={locale} />
+</MainLayout>

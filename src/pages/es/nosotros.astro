@@ -1,0 +1,24 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import CTASection from '../../components/CTASection.astro';
+import { t } from '../../i18n/ui';
+const locale = 'es';
+const dict = t(locale);
+---
+<MainLayout title={dict.pages.about.title} description={dict.pages.about.description} locale={locale} routeKey="about">
+  <PageIntro eyebrow={dict.pages.about.heroEyebrow} title={dict.pages.about.heroTitle} copy={dict.pages.about.heroCopy} />
+  <section class="section-sm">
+    <div class="container grid grid-2">
+      <article class="card" style="padding:2rem;">
+        <h2>Nuestra misión</h2>
+        <p>Ofrecer servicios de limpieza confiables y prácticos que ayuden a las propiedades en Punta Cana a mantenerse listas, atractivas y bien presentadas.</p>
+      </article>
+      <article class="card" style="padding:2rem;">
+        <h2>Cómo trabajamos</h2>
+        <p>Priorizamos la comunicación clara, la coordinación eficiente y una ejecución cuidadosa para que cada propiedad se sienta limpia, controlada y lista para huéspedes.</p>
+      </article>
+    </div>
+  </section>
+  <CTASection locale={locale} />
+</MainLayout>

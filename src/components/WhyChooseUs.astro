@@ -1,0 +1,43 @@
+---
+import { BadgeCheck, Camera, Clock3, MapPin, ShieldCheck, Sparkles } from '@lucide/astro';
+import type { Locale } from '../i18n/config';
+import { t } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+const statIcons = [Sparkles, Clock3, Camera, MapPin];
+---
+
+<section class="section-pad bg-brand-soft/70">
+  <div class="section-shell grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+    <div class="space-y-6">
+      <span class="eyebrow">{dict.why.eyebrow}</span>
+      <h2 class="text-3xl font-black tracking-tight text-brand-navy sm:text-4xl">{dict.why.title}</h2>
+      <ul class="space-y-4">
+        {dict.why.bullets.map((bullet) => (
+          <li class="flex gap-3 text-base leading-7 text-brand-slate">
+            <BadgeCheck class="mt-1 h-5 w-5 shrink-0 text-brand-green" />
+            <span>{bullet}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="grid gap-5 sm:grid-cols-2">
+      {dict.why.stats.map((item, index) => {
+        const Icon = statIcons[index] ?? ShieldCheck;
+        return (
+          <article class="rounded-[2rem] bg-brand-navy p-7 text-white shadow-[0_20px_60px_rgba(11,47,99,0.18)]">
+            <Icon class="h-7 w-7 text-brand-green" />
+            <h3 class="mt-8 text-2xl font-black">{item.title}</h3>
+            <p class="mt-2 max-w-xs text-sm leading-6 text-white/75">{item.copy}</p>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>

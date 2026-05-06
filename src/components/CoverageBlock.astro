@@ -1,0 +1,36 @@
+---
+import { MapPin, MoveRight } from '@lucide/astro';
+import type { Locale } from '../i18n/config';
+import { siteSettings, t } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = t(locale);
+---
+
+<section class="section-pad border-y border-brand-border/70 bg-white">
+  <div class="section-shell grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+    <div>
+      <span class="eyebrow">{dict.coverage.eyebrow}</span>
+      <h2 class="mt-4 text-3xl font-black tracking-tight text-brand-navy sm:text-4xl">{dict.coverage.title}</h2>
+      <p class="mt-4 max-w-2xl text-lg leading-8 text-brand-slate">{dict.coverage.copy}</p>
+    </div>
+    <div class="grid gap-4 sm:grid-cols-2">
+      {siteSettings.areas.map((area) => (
+        <article class="card-surface flex items-center justify-between px-6 py-5">
+          <div class="flex items-center gap-3">
+            <span class="rounded-2xl bg-brand-mint p-3 text-brand-green"><MapPin class="h-5 w-5" /></span>
+            <div>
+              <h3 class="text-lg font-bold text-brand-navy">{area}</h3>
+              <p class="text-sm text-brand-slate">Local property care and cleaning</p>
+            </div>
+          </div>
+          <MoveRight class="h-5 w-5 text-brand-blue" />
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

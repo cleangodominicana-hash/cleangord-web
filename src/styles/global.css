@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "system-ui", sans-serif;
+  --color-brand-navy: #0b2f63;
+  --color-brand-blue: #1f73d8;
+  --color-brand-green: #78c61c;
+  --color-brand-mint: #eff9e2;
+  --color-brand-slate: #5b677d;
+  --color-brand-soft: #f5f8fc;
+  --color-brand-border: #dfe7f2;
+  --shadow-card: 0 18px 50px rgba(11, 47, 99, 0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white font-sans text-slate-800 antialiased;
+}
+
+.section-shell {
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+.section-pad {
+  @apply py-16 md:py-20;
+}
+
+.eyebrow {
+  @apply inline-flex items-center rounded-full border border-brand-green/20 bg-brand-mint px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-brand-green;
+}
+
+.card-surface {
+  @apply rounded-3xl border border-brand-border bg-white shadow-[var(--shadow-card)];
+}
+
+.prose-copy p {
+  @apply text-base leading-7 text-brand-slate;
+}
+
+.hero-grid {
+  background:
+    radial-gradient(circle at top left, rgba(120, 198, 28, 0.15), transparent 32%),
+    radial-gradient(circle at right center, rgba(31, 115, 216, 0.16), transparent 30%),
+    linear-gradient(180deg, #f7fbff 0%, #ffffff 100%);
+}
+
+.before-after-image {
+  background: linear-gradient(135deg, rgba(11, 47, 99, 0.82), rgba(31, 115, 216, 0.5)), url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80') center/cover;
+}
+
+.before-after-kitchen {
+  background: linear-gradient(135deg, rgba(11, 47, 99, 0.82), rgba(31, 115, 216, 0.5)), url('https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80') center/cover;
+}
+
+.before-after-bathroom {
+  background: linear-gradient(135deg, rgba(11, 47, 99, 0.82), rgba(31, 115, 216, 0.5)), url('https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=1200&q=80') center/cover;
+}
+
+.footer-grid a,
+header a {
+  @apply transition-colors duration-200;
+}
