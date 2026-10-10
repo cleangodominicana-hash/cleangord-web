@@ -87,7 +87,7 @@ export type Translation = {
 };
 
 export const siteSettings = {
-  url: "https://www.cleangord.com",
+  url: "https://www.cleangopuntacana.com",
   fullName: "CleanGo",
   phoneDisplay: "+1 (849) 381-5983",
   phoneHref: "tel:+18493815983",
