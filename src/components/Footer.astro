@@ -15,9 +15,10 @@ interface Props {
 
 const { locale } = Astro.props;
 const dict = t(locale);
+const privacyLabel = locale === 'es' ? 'Política de privacidad' : 'Privacy policy';
 ---
 
-<footer class="mt-16 bg-brand-navy text-white">
+<footer class="mt-16 bg-brand-navy text-white" data-analytics-location="footer">
   <div class="section-shell grid gap-12 py-14 lg:grid-cols-[1.2fr_0.9fr_0.9fr_1fr]">
     <div class="space-y-5">
       <div>
@@ -112,6 +113,9 @@ const dict = t(locale);
   <div class="border-t border-white/10">
     <div class="section-shell flex flex-col gap-3 py-4 text-sm text-white/60 sm:flex-row sm:items-center sm:justify-between">
       <p>© 2026 CleanGo. All rights reserved.</p>
+      <a href={getPath(locale, 'privacy')} class="underline-offset-4 hover:text-white hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+        {privacyLabel}
+      </a>
       <p>{siteSettings.schedule}</p>
     </div>
   </div>

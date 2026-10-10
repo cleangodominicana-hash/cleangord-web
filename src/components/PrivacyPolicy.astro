@@ -1,0 +1,160 @@
+---
+import type { Locale } from '../i18n/config';
+import { t } from '../i18n/ui';
+import { privacyConfig } from '../config/privacy';
+import PageIntro from './PageIntro.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+type Section = {
+  title: string;
+  paragraphs: string[];
+  items?: string[];
+};
+
+const { locale } = Astro.props;
+const page = t(locale).pages.privacy;
+const copy: { sections: Section[] } = locale === 'es'
+  ? {
+      sections: [
+        {
+          title: '1. Quiénes somos y cómo contactarnos',
+          paragraphs: [
+            `${privacyConfig.tradeName} es el nombre comercial de un servicio de limpieza profesional en Punta Cana y zonas cercanas. La responsable actual del tratamiento de datos es ${privacyConfig.controllerName}.`,
+            `La operación se encuentra en ${privacyConfig.location.es}. Puedes contactarnos por los siguientes medios:`
+          ],
+          items: [
+            `Sitio web: ${privacyConfig.website}`,
+            `Teléfono y WhatsApp: ${privacyConfig.phone}`,
+            `Correo general y de solicitudes de privacidad: ${privacyConfig.email}`
+          ]
+        },
+        {
+          title: '2. Qué información utilizamos y para qué',
+          paragraphs: [
+            'Cuando una persona nos contacta por WhatsApp, teléfono o correo, utilizamos la información que decide compartir para responder a su consulta y coordinar los servicios solicitados.',
+            'Con consentimiento, usamos Google Analytics 4 para entender qué páginas se visitan y cómo se utiliza el sitio. También medimos cuándo se selecciona un botón de contacto, el canal elegido, el idioma de la página y la zona del sitio donde aparece el botón.',
+            'Esta medición de contacto no incluye el nombre, teléfono o correo del visitante, mensajes escritos ni datos introducidos en el formulario. Según la configuración de Google Analytics, Google también puede procesar información técnica como las páginas visitadas, el dispositivo, el navegador y una ubicación aproximada.'
+          ]
+        },
+        {
+          title: '3. Consentimiento y analítica',
+          paragraphs: [
+            'Google Analytics permanece desactivado hasta que la persona selecciona “Permitir analítica”. La elección se guarda en el almacenamiento local del navegador para recordar la preferencia.',
+            'La preferencia puede revisarse en cualquier momento mediante el botón “Preferencias de analítica”. Al rechazar o retirar el consentimiento, el sitio detiene la medición futura y trata de eliminar las cookies de Google Analytics que puede gestionar.',
+            'Retirar el consentimiento no elimina información enviada anteriormente a Google ni garantiza la eliminación de cookies que el sitio no puede gestionar. Google Signals está desactivado y la configuración no concede almacenamiento publicitario, datos de usuario con fines publicitarios ni personalización de anuncios.'
+          ]
+        },
+        {
+          title: '4. Canales de contacto y formulario',
+          paragraphs: [
+            'Los enlaces de WhatsApp, teléfono y correo abren el canal elegido. La información enviada mediante esos servicios también puede ser tratada por el proveedor del canal correspondiente.',
+            'El formulario visible en el sitio todavía no está activo y no envía solicitudes. Si se habilita en el futuro, este texto se actualizará antes de comenzar a recibir datos mediante el formulario.'
+          ]
+        },
+        {
+          title: '5. Proveedores, transferencias y conservación',
+          paragraphs: [
+            'Google presta el servicio de analítica. Según su infraestructura y condiciones, el uso de Google Analytics puede implicar tratamiento de información fuera de la República Dominicana. Esta política no afirma mecanismos o garantías de transferencia que no hayan sido verificados.',
+            `La propiedad de Google Analytics está configurada para conservar los datos de eventos durante ${privacyConfig.analyticsRetention.eventDataMonths} meses y los datos de usuario durante ${privacyConfig.analyticsRetention.userDataMonths} meses. La actualización de la retención con nueva actividad está activada. Estas opciones corresponden a la configuración disponible en GA4 y no describen necesariamente todos los informes agregados o tratamientos realizados por Google.`,
+            'No se ha definido un plazo fijo para conservar las consultas comerciales. Ese plazo debe establecerse de acuerdo con la finalidad del contacto y las obligaciones aplicables, sin impedir que una persona solicite la eliminación de sus datos cuando corresponda.'
+          ]
+        },
+        {
+          title: '6. Solicitudes de privacidad',
+          paragraphs: [
+            `Para consultar sobre privacidad o solicitar acceso, corrección o eliminación de datos, según corresponda, escribe a ${privacyConfig.email}. También puedes retirar el consentimiento de analítica directamente desde el botón “Preferencias de analítica”.`,
+            'Podremos solicitar información razonable para localizar los datos relacionados con la solicitud. No envíes cédulas ni documentos de identidad salvo que se te expliquen previamente la necesidad y el canal adecuado.'
+          ]
+        },
+        {
+          title: '7. Cambios en esta política',
+          paragraphs: [
+            'Los cambios relevantes en el uso de datos o en los servicios utilizados se publicarán en esta página. Recomendamos revisar esta política periódicamente.'
+          ]
+        }
+      ]
+    }
+  : {
+      sections: [
+        {
+          title: '1. Who we are and how to contact us',
+          paragraphs: [
+            `${privacyConfig.tradeName} is the trade name of a professional cleaning service in Punta Cana and nearby areas. The current data controller is ${privacyConfig.controllerName}.`,
+            `The operation is located in ${privacyConfig.location.en}. You can contact us through the following channels:`
+          ],
+          items: [
+            `Website: ${privacyConfig.website}`,
+            `Phone and WhatsApp: ${privacyConfig.phone}`,
+            `General and privacy requests email: ${privacyConfig.email}`
+          ]
+        },
+        {
+          title: '2. Information we use and why',
+          paragraphs: [
+            'When someone contacts us through WhatsApp, phone, or email, we use the information they choose to share to answer their enquiry and coordinate requested services.',
+            'With consent, we use Google Analytics 4 to understand which pages are visited and how the site is used. We also measure when a contact button is selected, the chosen channel, the page language, and the area of the site where the button appears.',
+            'This contact measurement does not include the visitor’s name, phone number or email, written messages, or information entered in the form. Depending on Google Analytics configuration, Google may also process technical information such as pages visited, device, browser, and approximate location.'
+          ]
+        },
+        {
+          title: '3. Consent and analytics',
+          paragraphs: [
+            'Google Analytics remains disabled until the visitor selects “Allow analytics”. The choice is saved in the browser’s local storage so the preference can be remembered.',
+            'The preference can be reviewed at any time through the “Analytics settings” button. When consent is declined or withdrawn, the site stops future measurement and attempts to remove the Google Analytics cookies it can manage.',
+            'Withdrawing consent does not remove information previously sent to Google or guarantee removal of cookies the site cannot manage. Google Signals is disabled, and the configuration does not grant advertising storage, advertising user data, or ad personalization.'
+          ]
+        },
+        {
+          title: '4. Contact channels and form',
+          paragraphs: [
+            'WhatsApp, phone, and email links open the selected channel. Information sent through those services may also be processed by the provider of the selected channel.',
+            'The form displayed on the site is not active and does not send requests. If it is enabled in the future, this notice will be updated before information is collected through the form.'
+          ]
+        },
+        {
+          title: '5. Providers, transfers, and retention',
+          paragraphs: [
+            'Google provides the analytics service. Depending on its infrastructure and terms, using Google Analytics may involve processing information outside the Dominican Republic. This policy does not claim transfer mechanisms or safeguards that have not been verified.',
+            `The Google Analytics property is configured to retain event data for ${privacyConfig.analyticsRetention.eventDataMonths} months and user data for ${privacyConfig.analyticsRetention.userDataMonths} months. Resetting retention on new activity is enabled. These options describe the available GA4 configuration and do not necessarily cover every aggregated report or processing activity performed by Google.`,
+            'No fixed retention period has been defined for commercial enquiries. That period must be established according to the purpose of the contact and applicable obligations, without preventing a person from requesting deletion when appropriate.'
+          ]
+        },
+        {
+          title: '6. Privacy requests',
+          paragraphs: [
+            `To ask a privacy question or request access, correction, or deletion of data, where applicable, email ${privacyConfig.email}. You can also withdraw analytics consent directly through the “Analytics settings” button.`,
+            'We may request reasonable information to locate the data related to the request. Do not send national identification numbers or identity documents unless the need and an appropriate channel have been explained to you first.'
+          ]
+        },
+        {
+          title: '7. Changes to this policy',
+          paragraphs: [
+            'Relevant changes to data use or the services used will be published on this page. We recommend reviewing this policy periodically.'
+          ]
+        }
+      ]
+    };
+---
+
+<PageIntro eyebrow={page.heroEyebrow} title={page.heroTitle} copy={page.heroCopy} />
+
+<article class="section-shell section-pad max-w-4xl">
+  <div class="space-y-10">
+    {copy.sections.map((section) => (
+      <section aria-labelledby={`privacy-section-${section.title.charAt(0)}`}>
+        <h2 id={`privacy-section-${section.title.charAt(0)}`} class="text-2xl font-black text-brand-navy">{section.title}</h2>
+        <div class="mt-4 space-y-4 text-base leading-7 text-brand-slate">
+          {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+          {section.items && (
+            <ul class="list-disc space-y-2 pl-6">
+              {section.items.map((item) => <li>{item}</li>)}
+            </ul>
+          )}
+        </div>
+      </section>
+    ))}
+  </div>
+</article>

@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Analytics from '../components/Analytics.astro';
 import { getPath, localeAlternates, siteSettings, t } from '../i18n/ui';
 import type { Locale, RouteKey } from '../i18n/config';
 import { absoluteUrl, organizationSchema, pageImage } from '../utils/seo';
@@ -60,5 +61,6 @@ const structuredData = organizationSchema(locale, metaDescription);
       <slot />
     </main>
     <Footer locale={locale} />
+    <Analytics locale={locale} />
   </body>
 </html>

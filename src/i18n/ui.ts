@@ -88,7 +88,7 @@ export type Translation = {
 
 export const siteSettings = {
   url: "https://www.cleangopuntacana.com",
-  fullName: "CleanGo",
+  fullName: "Clean GO Punta Cana",
   phoneDisplay: "+1 (849) 381-5983",
   phoneHref: "tel:+18493815983",
   whatsappNumber: "+18493815983",
@@ -106,7 +106,7 @@ export const dictionaries: Record<Locale, Translation> = {
   en: {
     localeName: "English",
     brandSuffix: "Punta Cana",
-    siteName: "CleanGo",
+    siteName: "Clean GO Punta Cana",
     description: "Professional cleaning services in Punta Cana for Airbnb, villas, apartments, and property care.",
     ogLocale: "en_US",
     nav: [
@@ -254,12 +254,19 @@ export const dictionaries: Record<Locale, Translation> = {
         heroTitle: "Tell us about your property",
         heroCopy: "Let us know what kind of cleaning support you need and we will help you coordinate the best next step.",
       },
+      privacy: {
+        title: "Privacy Policy | Clean GO Punta Cana",
+        description: "Learn how Clean GO Punta Cana uses contact and analytics data and how visitors can manage consent and privacy requests.",
+        heroEyebrow: "Privacy",
+        heroTitle: "Privacy policy",
+        heroCopy: "Learn what information we use, why we use it, and how to manage your analytics consent or contact us about privacy.",
+      },
     },
   },
   es: {
     localeName: "Español",
     brandSuffix: "Punta Cana",
-    siteName: "CleanGo",
+    siteName: "Clean GO Punta Cana",
     description: "Servicios de limpieza profesional en Punta Cana para Airbnb, villas, apartamentos y cuidado general de propiedades.",
     ogLocale: "es_DO",
     nav: [
@@ -406,6 +413,13 @@ export const dictionaries: Record<Locale, Translation> = {
         heroEyebrow: "Contacto",
         heroTitle: "Cuéntanos sobre tu propiedad",
         heroCopy: "Déjanos saber qué tipo de apoyo necesitas y te ayudaremos a coordinar el siguiente paso ideal.",
+      },
+      privacy: {
+        title: "Política de privacidad | Clean GO Punta Cana",
+        description: "Conoce cómo Clean GO Punta Cana utiliza datos de contacto y analítica y cómo gestionar el consentimiento y las solicitudes de privacidad.",
+        heroEyebrow: "Privacidad",
+        heroTitle: "Política de privacidad",
+        heroCopy: "Conoce qué información utilizamos, para qué la usamos y cómo gestionar tu consentimiento de analítica o contactarnos sobre privacidad.",
       },
     },
   },
