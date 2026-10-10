@@ -1,7 +1,9 @@
 ---
 import { Mail, MapPin, PhoneCall } from '@lucide/astro';
 import type { Locale } from '../i18n/config';
-import { siteSettings, t } from '../i18n/ui';
+import { serviceIds, serviceLabels } from '../config/contact';
+import { getPath, siteSettings, t } from '../i18n/ui';
+import { analyticsConfig } from '../config/analytics';
 
 interface Props {
   locale: Locale;
@@ -9,6 +11,25 @@ interface Props {
 
 const { locale } = Astro.props;
 const dict = t(locale);
+const formCopy = locale === 'es'
+  ? {
+      servicePlaceholder: 'Selecciona un servicio',
+      privacyPrefix: 'Al enviar, consulta nuestra',
+      privacyLink: 'política de privacidad',
+      sending: 'Enviando…',
+      success: 'Gracias. Recibimos tu solicitud y te responderemos pronto.',
+      error: 'No pudimos enviar tu solicitud. Inténtalo de nuevo o contáctanos directamente.',
+      honeypot: 'Empresa (dejar en blanco)'
+    }
+  : {
+      servicePlaceholder: 'Select a service',
+      privacyPrefix: 'By submitting, please review our',
+      privacyLink: 'privacy policy',
+      sending: 'Sending…',
+      success: 'Thank you. We received your request and will reply soon.',
+      error: 'We could not send your request. Try again or contact us directly.',
+      honeypot: 'Company (leave blank)'
+    };
 ---
 
 <section class="section-shell section-pad grid gap-8 lg:grid-cols-[0.9fr_1.1fr]" data-analytics-location="contact_details">
@@ -46,33 +67,87 @@ const dict = t(locale);
       <p class="text-sm font-semibold uppercase tracking-[0.18em] text-brand-green">{dict.contact.formTitle}</p>
       <p class="mt-3 text-base leading-7 text-brand-slate">{dict.contact.formCopy}</p>
     </div>
-    <form class="mt-8 grid gap-5 sm:grid-cols-2" method="post">
+    <form class="mt-8 grid gap-5 sm:grid-cols-2" method="post" action="/api/contact" data-contact-form>
       <label class="space-y-2 text-sm font-semibold text-brand-navy">
         <span>{dict.contact.fields.name}</span>
-        <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.name} type="text" name="name" />
+        <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.name} type="text" name="name" autocomplete="name" minlength="2" maxlength="100" required />
       </label>
       <label class="space-y-2 text-sm font-semibold text-brand-navy">
         <span>{dict.contact.fields.email}</span>
-        <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.email} type="email" name="email" />
+        <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.email} type="email" name="email" autocomplete="email" maxlength="254" required />
       </label>
       <label class="space-y-2 text-sm font-semibold text-brand-navy">
         <span>{dict.contact.fields.phone}</span>
-        <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.phone} type="tel" name="phone" />
+        <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.phone} type="tel" name="phone" autocomplete="tel" minlength="7" maxlength="30" />
       </label>
       <label class="space-y-2 text-sm font-semibold text-brand-navy">
         <span>{dict.contact.fields.service}</span>
-        <select class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" name="service">
-          <option value="">Select a service</option>
-          {dict.services.map((service) => <option value={service.title}>{service.title}</option>)}
+        <select class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" name="service" required>
+          <option value="">{formCopy.servicePlaceholder}</option>
+          {serviceIds.map((service) => <option value={service}>{serviceLabels[locale][service]}</option>)}
         </select>
       </label>
       <label class="space-y-2 text-sm font-semibold text-brand-navy sm:col-span-2">
         <span>{dict.contact.fields.message}</span>
-        <textarea class="min-h-36 w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.message} name="message"></textarea>
+        <textarea class="min-h-36 w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.message} name="message" minlength="10" maxlength="2000" required></textarea>
       </label>
-      <button type="submit" class="inline-flex w-full items-center justify-center rounded-full bg-brand-green px-6 py-4 text-sm font-bold text-white transition hover:bg-brand-navy sm:w-fit">
+      <label class="absolute -left-[9999px]" aria-hidden="true">
+        <span>{formCopy.honeypot}</span>
+        <input type="text" name="company" tabindex="-1" autocomplete="off" />
+      </label>
+      <div class="space-y-3 sm:col-span-2">
+        <p class="text-sm text-brand-slate">
+          {formCopy.privacyPrefix} <a class="font-semibold text-brand-blue underline underline-offset-4" href={getPath(locale, 'privacy')}>{formCopy.privacyLink}</a>.
+        </p>
+        <p class="min-h-6 text-sm font-semibold text-brand-slate" role="status" aria-live="polite" data-form-status></p>
+      </div>
+      <button type="submit" class="inline-flex w-full items-center justify-center rounded-full bg-brand-green px-6 py-4 text-sm font-bold text-white transition hover:bg-brand-navy disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit">
         {dict.buttons.sendRequest}
       </button>
     </form>
   </div>
 </section>
+
+<script define:vars={{ locale, consentKey: analyticsConfig.consentStorageKey, formCopy }}>
+  const form = document.querySelector('[data-contact-form]');
+  const status = form?.querySelector('[data-form-status]');
+  const submitButton = form?.querySelector('button[type="submit"]');
+  let startedAt = Date.now();
+  let idempotencyKey = crypto.randomUUID();
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!(form instanceof HTMLFormElement) || !(submitButton instanceof HTMLButtonElement)) return;
+
+    submitButton.disabled = true;
+    if (status) status.textContent = formCopy.sending;
+
+    const payload = { ...Object.fromEntries(new FormData(form)), locale, startedAt };
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Idempotency-Key': idempotencyKey },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json().catch(() => null);
+      if (!response.ok || result?.ok !== true) throw new Error('Contact request rejected');
+
+      if (status) status.textContent = formCopy.success;
+      try {
+        if (localStorage.getItem(consentKey) === 'granted' && typeof window.gtag === 'function') {
+          window.gtag('event', 'generate_lead', { page_language: locale });
+        }
+      } catch {
+        // The form succeeds even when analytics storage is unavailable.
+      }
+      form.reset();
+      startedAt = Date.now();
+      idempotencyKey = crypto.randomUUID();
+    } catch {
+      if (status) status.textContent = formCopy.error;
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+</script>

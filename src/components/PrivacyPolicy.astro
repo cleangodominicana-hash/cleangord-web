@@ -34,7 +34,7 @@ const copy: { sections: Section[] } = locale === 'es'
         {
           title: '2. Qué información utilizamos y para qué',
           paragraphs: [
-            'Cuando una persona nos contacta por WhatsApp, teléfono o correo, utilizamos la información que decide compartir para responder a su consulta y coordinar los servicios solicitados.',
+            'Cuando una persona nos contacta por WhatsApp, teléfono, correo o el formulario, utilizamos la información que decide compartir para responder a su consulta y coordinar los servicios solicitados. El formulario solicita nombre, correo, servicio y mensaje; el teléfono es opcional.',
             'Con consentimiento, usamos Google Analytics 4 para entender qué páginas se visitan y cómo se utiliza el sitio. También medimos cuándo se selecciona un botón de contacto, el canal elegido, el idioma de la página y la zona del sitio donde aparece el botón.',
             'Esta medición de contacto no incluye el nombre, teléfono o correo del visitante, mensajes escritos ni datos introducidos en el formulario. Según la configuración de Google Analytics, Google también puede procesar información técnica como las páginas visitadas, el dispositivo, el navegador y una ubicación aproximada.'
           ]
@@ -51,13 +51,13 @@ const copy: { sections: Section[] } = locale === 'es'
           title: '4. Canales de contacto y formulario',
           paragraphs: [
             'Los enlaces de WhatsApp, teléfono y correo abren el canal elegido. La información enviada mediante esos servicios también puede ser tratada por el proveedor del canal correspondiente.',
-            'El formulario visible en el sitio todavía no está activo y no envía solicitudes. Si se habilita en el futuro, este texto se actualizará antes de comenzar a recibir datos mediante el formulario.'
+            'El formulario envía la consulta a una función alojada por Vercel. La función valida la solicitud y usa Resend para entregar el correo a Clean GO. El correo indicado por la persona se utiliza como dirección de respuesta. El envío funciona aunque se rechace la analítica.'
           ]
         },
         {
           title: '5. Proveedores, transferencias y conservación',
           paragraphs: [
-            'Google presta el servicio de analítica. Según su infraestructura y condiciones, el uso de Google Analytics puede implicar tratamiento de información fuera de la República Dominicana. Esta política no afirma mecanismos o garantías de transferencia que no hayan sido verificados.',
+            'Vercel aloja el sitio y procesa técnicamente las solicitudes del formulario; Resend presta el servicio de entrega de correo; Google presta el servicio de analítica. Según sus infraestructuras y condiciones, estos servicios pueden implicar tratamiento de información fuera de la República Dominicana. Esta política no afirma mecanismos o garantías de transferencia que no hayan sido verificados.',
             `La propiedad de Google Analytics está configurada para conservar los datos de eventos durante ${privacyConfig.analyticsRetention.eventDataMonths} meses y los datos de usuario durante ${privacyConfig.analyticsRetention.userDataMonths} meses. La actualización de la retención con nueva actividad está activada. Estas opciones corresponden a la configuración disponible en GA4 y no describen necesariamente todos los informes agregados o tratamientos realizados por Google.`,
             'No se ha definido un plazo fijo para conservar las consultas comerciales. Ese plazo debe establecerse de acuerdo con la finalidad del contacto y las obligaciones aplicables, sin impedir que una persona solicite la eliminación de sus datos cuando corresponda.'
           ]
@@ -94,7 +94,7 @@ const copy: { sections: Section[] } = locale === 'es'
         {
           title: '2. Information we use and why',
           paragraphs: [
-            'When someone contacts us through WhatsApp, phone, or email, we use the information they choose to share to answer their enquiry and coordinate requested services.',
+            'When someone contacts us through WhatsApp, phone, email, or the form, we use the information they choose to share to answer their enquiry and coordinate requested services. The form asks for a name, email, service, and message; a phone number is optional.',
             'With consent, we use Google Analytics 4 to understand which pages are visited and how the site is used. We also measure when a contact button is selected, the chosen channel, the page language, and the area of the site where the button appears.',
             'This contact measurement does not include the visitor’s name, phone number or email, written messages, or information entered in the form. Depending on Google Analytics configuration, Google may also process technical information such as pages visited, device, browser, and approximate location.'
           ]
@@ -111,13 +111,13 @@ const copy: { sections: Section[] } = locale === 'es'
           title: '4. Contact channels and form',
           paragraphs: [
             'WhatsApp, phone, and email links open the selected channel. Information sent through those services may also be processed by the provider of the selected channel.',
-            'The form displayed on the site is not active and does not send requests. If it is enabled in the future, this notice will be updated before information is collected through the form.'
+            'The form sends the enquiry to a function hosted by Vercel. The function validates the request and uses Resend to deliver the email to Clean GO. The email supplied by the visitor is used as the reply address. Submission works even when analytics is declined.'
           ]
         },
         {
           title: '5. Providers, transfers, and retention',
           paragraphs: [
-            'Google provides the analytics service. Depending on its infrastructure and terms, using Google Analytics may involve processing information outside the Dominican Republic. This policy does not claim transfer mechanisms or safeguards that have not been verified.',
+            'Vercel hosts the site and technically processes form requests; Resend provides email delivery; Google provides analytics. Depending on their infrastructure and terms, these services may involve processing information outside the Dominican Republic. This policy does not claim transfer mechanisms or safeguards that have not been verified.',
             `The Google Analytics property is configured to retain event data for ${privacyConfig.analyticsRetention.eventDataMonths} months and user data for ${privacyConfig.analyticsRetention.userDataMonths} months. Resetting retention on new activity is enabled. These options describe the available GA4 configuration and do not necessarily cover every aggregated report or processing activity performed by Google.`,
             'No fixed retention period has been defined for commercial enquiries. That period must be established according to the purpose of the contact and applicable obligations, without preventing a person from requesting deletion when appropriate.'
           ]
