@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.cleangopuntacana.com/sitemap-index.xml
