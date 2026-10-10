@@ -1,6 +1,6 @@
 # Analytics and consent
 
-Clean GO uses Google Analytics 4 through `gtag.js` with measurement ID `G-8RQ4BXZYDG`.
+Clean GO Punta Cana uses Google Analytics 4 through `gtag.js` with measurement ID `G-8RQ4BXZYDG`.
 
 ## Consent behavior
 
@@ -12,6 +12,15 @@ Clean GO uses Google Analytics 4 through `gtag.js` with measurement ID `G-8RQ4BX
 Cookie removal is best effort: JavaScript cannot remove cookies with a different path/domain or `HttpOnly`, and revocation cannot delete data already received by Google.
 
 Draft privacy policies are available at `/privacy/` and `/es/privacidad/`. They are not approved final policies. Before deployment, legal review must confirm the controller and contact details, purposes and legal basis, Google and other recipients, cookies and local storage, retention, international transfers, visitor rights and withdrawal method, and the policy's effective date. The consent wording, Google Signals settings, and GA4 data retention also require review.
+
+## Legal review checklist
+
+- Confirm the effective data controller and the legal identification that must appear publicly.
+- Assign responsibility for monitoring `cleangodominicana@gmail.com` and handling privacy requests.
+- Confirm the legal bases, applicable rights, request procedure, response periods, and competent authority.
+- Verify the relevant providers, Google contracting entity, international transfers, and GA4 retention setting.
+- Define retention for enquiries and customer records without publishing an unverified period.
+- Approve the final wording, effective date, and version before production.
 
 ## Events
 
