@@ -1,0 +1,221 @@
+---
+import type { Locale } from '../i18n/config';
+import { analyticsConfig } from '../config/analytics';
+import { getPath } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = locale === 'es'
+  ? {
+      title: 'Preferencias de analítica',
+      description: 'Con tu permiso, usamos Google Analytics para entender el uso del sitio y mejorar nuestro servicio. La analítica permanece desactivada hasta que la aceptes.',
+      accept: 'Permitir analítica',
+      reject: 'Rechazar',
+      settings: 'Preferencias de analítica',
+      privacy: 'Leer el borrador de política de privacidad'
+    }
+  : {
+      title: 'Analytics preferences',
+      description: 'With your permission, we use Google Analytics to understand site usage and improve our service. Analytics stays off until you accept.',
+      accept: 'Allow analytics',
+      reject: 'Decline',
+      settings: 'Analytics settings',
+      privacy: 'Read the draft privacy policy'
+    };
+const privacyPath = getPath(locale, 'privacy');
+---
+
+<section
+  id="analytics-consent"
+  class="fixed inset-x-4 bottom-4 z-[100] mx-auto max-w-3xl rounded-3xl border border-brand-border bg-white p-6 shadow-2xl"
+  role="dialog"
+  aria-modal="false"
+  aria-live="polite"
+  aria-labelledby="analytics-consent-title"
+  aria-describedby="analytics-consent-description"
+  data-analytics-consent
+  hidden
+>
+  <h2 id="analytics-consent-title" class="text-lg font-bold text-brand-navy">{copy.title}</h2>
+  <p id="analytics-consent-description" class="mt-2 text-sm leading-6 text-brand-slate">{copy.description}</p>
+  <a href={privacyPath} class="mt-2 inline-block text-sm font-semibold text-brand-blue underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy">
+    {copy.privacy}
+  </a>
+  <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+    <button type="button" class="rounded-full bg-brand-navy px-5 py-3 text-sm font-bold text-white hover:bg-brand-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy" aria-pressed="false" data-analytics-accept>
+      {copy.accept}
+    </button>
+    <button type="button" class="rounded-full border border-brand-border px-5 py-3 text-sm font-bold text-brand-navy hover:border-brand-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy" aria-pressed="false" data-analytics-reject>
+      {copy.reject}
+    </button>
+  </div>
+</section>
+
+<button
+  type="button"
+  class="fixed bottom-4 right-4 z-[90] rounded-full border border-brand-border bg-white px-4 py-2 text-xs font-semibold text-brand-navy shadow-lg hover:border-brand-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+  aria-controls="analytics-consent"
+  aria-expanded="false"
+  data-analytics-settings
+>
+  {copy.settings}
+</button>
+
+<script is:inline define:vars={{ measurementId: analyticsConfig.measurementId, consentKey: analyticsConfig.consentStorageKey }}>
+  (() => {
+    const granted = 'granted';
+    const denied = 'denied';
+    const disableKey = `ga-disable-${measurementId}`;
+    const banner = document.querySelector('[data-analytics-consent]');
+    const acceptButton = document.querySelector('[data-analytics-accept]');
+    const rejectButton = document.querySelector('[data-analytics-reject]');
+    const settingsButton = document.querySelector('[data-analytics-settings]');
+
+    const readStoredPreference = () => {
+      try {
+        const value = localStorage.getItem(consentKey);
+        return value === granted || value === denied ? value : null;
+      } catch {
+        return null;
+      }
+    };
+
+    let currentPreference = readStoredPreference();
+    const getPreference = () => currentPreference;
+
+    const updatePreferenceState = () => {
+      acceptButton?.setAttribute('aria-pressed', String(currentPreference === granted));
+      rejectButton?.setAttribute('aria-pressed', String(currentPreference === denied));
+    };
+
+    const savePreference = (value) => {
+      currentPreference = value;
+      updatePreferenceState();
+      try {
+        localStorage.setItem(consentKey, value);
+      } catch {
+        // The current page can still honor the choice when storage is unavailable.
+      }
+    };
+
+    const setBannerOpen = (open, focusChoice = false) => {
+      if (!banner || !settingsButton) return;
+      banner.hidden = !open;
+      settingsButton.hidden = open;
+      settingsButton.setAttribute('aria-expanded', String(open));
+      if (open && focusChoice) acceptButton?.focus();
+    };
+
+    const analyticsScript = () => document.querySelector(`script[data-ga4-id="${measurementId}"]`);
+
+    const clearAnalyticsCookies = () => {
+      const cookieNames = document.cookie
+        .split(';')
+        .map((cookie) => cookie.trim().split('=')[0])
+        .filter((name) => name === '_ga' || name === '_gid' || name.startsWith('_ga_') || name.startsWith('_gat') || name.startsWith('_gac_'));
+      const apexDomain = location.hostname.replace(/^www\./, '');
+      const attributes = `; Max-Age=0; Path=/; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`;
+
+      cookieNames.forEach((name) => {
+        document.cookie = `${name}=${attributes}`;
+        document.cookie = `${name}=${attributes}; Domain=${location.hostname}`;
+        if (apexDomain !== location.hostname) document.cookie = `${name}=${attributes}; Domain=${apexDomain}`;
+      });
+    };
+
+    const createGtag = () => {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function () {
+        window.dataLayer.push(arguments);
+      };
+    };
+
+    const enableAnalytics = () => {
+      window[disableKey] = false;
+      createGtag();
+
+      if (analyticsScript()) {
+        window.gtag('consent', 'update', { analytics_storage: 'granted' });
+        return;
+      }
+
+      window.gtag('consent', 'default', {
+        analytics_storage: 'granted',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied'
+      });
+      window.gtag('js', new Date());
+      window.gtag('config', measurementId);
+
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
+      script.dataset.ga4Id = measurementId;
+      document.head.append(script);
+    };
+
+    const disableAnalytics = () => {
+      window[disableKey] = true;
+      if (analyticsScript() && typeof window.gtag === 'function') {
+        window.gtag('consent', 'update', { analytics_storage: 'denied' });
+      }
+      clearAnalyticsCookies();
+    };
+
+    acceptButton?.addEventListener('click', () => {
+      savePreference(granted);
+      enableAnalytics();
+      setBannerOpen(false);
+      settingsButton?.focus();
+    });
+
+    rejectButton?.addEventListener('click', () => {
+      savePreference(denied);
+      disableAnalytics();
+      setBannerOpen(false);
+      settingsButton?.focus();
+    });
+
+    settingsButton?.addEventListener('click', () => setBannerOpen(true, true));
+
+    document.addEventListener('click', (event) => {
+      if (getPreference() !== granted || window[disableKey] || typeof window.gtag !== 'function') return;
+      if (!(event.target instanceof Element)) return;
+
+      const link = event.target.closest('a[href]');
+      if (!link) return;
+
+      const href = link.getAttribute('href') || '';
+      let contactMethod;
+      if (href.startsWith('tel:')) contactMethod = 'phone';
+      else if (href.startsWith('mailto:')) contactMethod = 'email';
+      else {
+        try {
+          if (new URL(link.href).hostname === 'wa.me') contactMethod = 'whatsapp';
+        } catch {
+          return;
+        }
+      }
+
+      const ctaLocation = link.closest('[data-analytics-location]')?.getAttribute('data-analytics-location');
+      if (!contactMethod || !ctaLocation) return;
+
+      window.gtag('event', 'contact_click', {
+        contact_method: contactMethod,
+        page_language: document.documentElement.lang === 'es' ? 'es' : 'en',
+        cta_location: ctaLocation
+      });
+    });
+
+    updatePreferenceState();
+    if (getPreference() === granted) enableAnalytics();
+    else {
+      disableAnalytics();
+      setBannerOpen(getPreference() === null);
+    }
+  })();
+</script>

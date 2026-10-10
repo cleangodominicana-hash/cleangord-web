@@ -1,0 +1,12 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import PrivacyPolicy from '../components/PrivacyPolicy.astro';
+import { t } from '../i18n/ui';
+
+const locale = 'en';
+const page = t(locale).pages.privacy;
+---
+
+<MainLayout title={page.title} description={page.description} locale={locale} routeKey="privacy">
+  <PrivacyPolicy locale={locale} />
+</MainLayout>

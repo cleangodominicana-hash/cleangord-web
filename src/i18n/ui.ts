@@ -88,7 +88,7 @@ export type Translation = {
 
 export const siteSettings = {
   url: "https://www.cleangopuntacana.com",
-  fullName: "CleanGo",
+  fullName: "Clean GO Punta Cana",
   phoneDisplay: "+1 (849) 381-5983",
   phoneHref: "tel:+18493815983",
   whatsappNumber: "+18493815983",
@@ -106,7 +106,7 @@ export const dictionaries: Record<Locale, Translation> = {
   en: {
     localeName: "English",
     brandSuffix: "Punta Cana",
-    siteName: "CleanGo",
+    siteName: "Clean GO Punta Cana",
     description: "Professional cleaning services in Punta Cana for Airbnb, villas, apartments, and property care.",
     ogLocale: "en_US",
     nav: [
@@ -254,12 +254,19 @@ export const dictionaries: Record<Locale, Translation> = {
         heroTitle: "Tell us about your property",
         heroCopy: "Let us know what kind of cleaning support you need and we will help you coordinate the best next step.",
       },
+      privacy: {
+        title: "Privacy Policy Draft | Clean GO Punta Cana",
+        description: "Draft privacy policy for Clean GO Punta Cana, pending confirmation of legal information and legal review.",
+        heroEyebrow: "Draft for legal review",
+        heroTitle: "Privacy policy",
+        heroCopy: "This draft explains the current handling of analytics and contact data. It is not an approved final policy.",
+      },
     },
   },
   es: {
     localeName: "Español",
     brandSuffix: "Punta Cana",
-    siteName: "CleanGo",
+    siteName: "Clean GO Punta Cana",
     description: "Servicios de limpieza profesional en Punta Cana para Airbnb, villas, apartamentos y cuidado general de propiedades.",
     ogLocale: "es_DO",
     nav: [
@@ -406,6 +413,13 @@ export const dictionaries: Record<Locale, Translation> = {
         heroEyebrow: "Contacto",
         heroTitle: "Cuéntanos sobre tu propiedad",
         heroCopy: "Déjanos saber qué tipo de apoyo necesitas y te ayudaremos a coordinar el siguiente paso ideal.",
+      },
+      privacy: {
+        title: "Borrador de política de privacidad | Clean GO Punta Cana",
+        description: "Borrador de política de privacidad de Clean GO Punta Cana, pendiente de datos jurídicos y revisión legal.",
+        heroEyebrow: "Borrador para revisión legal",
+        heroTitle: "Política de privacidad",
+        heroCopy: "Este borrador explica el tratamiento actual de analítica y contactos. No es una política final aprobada.",
       },
     },
   },

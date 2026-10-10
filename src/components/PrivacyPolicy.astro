@@ -1,0 +1,209 @@
+---
+import type { Locale } from '../i18n/config';
+import { t } from '../i18n/ui';
+import PageIntro from './PageIntro.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+type Section = {
+  title: string;
+  paragraphs: string[];
+  items?: string[];
+};
+
+const { locale } = Astro.props;
+const page = t(locale).pages.privacy;
+const copy: { notice: string; sections: Section[] } = locale === 'es'
+  ? {
+      notice: 'BORRADOR PARA REVISIÓN LEGAL — No aprobado como política final.',
+      sections: [
+        {
+          title: '1. Identidad comercial y responsable del tratamiento',
+          paragraphs: [
+            'Clean GO Punta Cana es la identidad comercial pública utilizada para ofrecer servicios de limpieza profesional en Punta Cana y zonas cercanas.',
+            'Actualmente opera como negocio informal y su formalización está en proceso. No existe todavía una sociedad Clean GO constituida ni un RNC propio. La información jurídica se actualizará cuando termine la formalización.',
+            'La identificación efectiva del responsable del tratamiento debe confirmarse y revisarse jurídicamente antes de aprobar esta política.'
+          ],
+          items: [
+            'Sitio web: https://www.cleangopuntacana.com',
+            'Teléfono y WhatsApp: +1 (849) 381-5983',
+            'Correo general: cleangodominicana@gmail.com',
+            'Responsable efectivo del tratamiento: [PENDIENTE DE CONFIRMACIÓN]',
+            'Razón social, RNC y condición societaria: [NO DISPONIBLES; FORMALIZACIÓN PENDIENTE]',
+            'Domicilio jurídico: [PENDIENTE DE FORMALIZACIÓN]',
+            'Contacto específico para privacidad: [PENDIENTE DE CONFIRMACIÓN]'
+          ]
+        },
+        {
+          title: '2. Datos y finalidades actuales',
+          paragraphs: [
+            'El sitio utiliza Google Analytics 4 únicamente cuando la persona acepta la analítica. Se emplea para conocer el uso general del sitio y mejorar el servicio.',
+            'La medición incluye vistas de página automáticas y el evento contact_click al activar enlaces de WhatsApp, teléfono o correo. Este evento solo contiene el método de contacto, el idioma de la página y la ubicación del botón. No incluye nombres, teléfonos o correos del visitante, mensajes libres ni valores del formulario.',
+            'Según la configuración y el tratamiento de Google Analytics, pueden procesarse datos técnicos como páginas visitadas, dispositivo, navegador y ubicación aproximada. La configuración definitiva de la propiedad de GA4 debe revisarse antes de aprobar esta política.'
+          ]
+        },
+        {
+          title: '3. Consentimiento, almacenamiento y revocación',
+          paragraphs: [
+            'Google Analytics permanece desactivado y gtag.js no se carga hasta que la persona acepta. La preferencia se guarda en localStorage con la clave cleango.analytics.consent.',
+            'La preferencia puede cambiarse mediante el botón “Preferencias de analítica”. Al rechazar o revocar, el sitio desactiva la medición futura, comunica la denegación a Google Analytics y elimina, en la medida técnicamente posible, las cookies de GA4 accesibles para el sitio.',
+            'La eliminación mediante JavaScript no puede garantizar el borrado de cookies con otro dominio o ruta, cookies HttpOnly ni datos enviados previamente a Google.'
+          ]
+        },
+        {
+          title: '4. Base jurídica, destinatarios y transferencias',
+          paragraphs: [
+            'La base jurídica aplicable a cada tratamiento, la entidad contractual de Google, los destinatarios y las posibles transferencias internacionales requieren confirmación y revisión jurídica antes de aprobar esta política.'
+          ],
+          items: [
+            'Base jurídica de la analítica: [PENDIENTE DE REVISIÓN LEGAL]',
+            'Proveedores y destinatarios: [PENDIENTE DE CONFIRMACIÓN]',
+            'Mecanismos para transferencias internacionales: [PENDIENTE DE REVISIÓN LEGAL]'
+          ]
+        },
+        {
+          title: '5. Conservación',
+          paragraphs: [
+            'La preferencia de analítica permanece en el navegador hasta que la persona la cambie, borre los datos del sitio o el navegador la elimine. Los plazos de conservación de GA4 y de futuros datos de contacto deben confirmarse.'
+          ],
+          items: [
+            'Retención configurada en GA4: [PENDIENTE DE CONFIRMACIÓN]',
+            'Plazo para consultas y clientes: [PENDIENTE DE CONFIRMACIÓN]'
+          ]
+        },
+        {
+          title: '6. Contactos y futuro formulario con Resend',
+          paragraphs: [
+            'Los enlaces de WhatsApp, teléfono y correo abren el canal elegido por la persona. El tratamiento posterior depende de la información que decida comunicar mediante ese canal.',
+            'El formulario visible todavía no tiene un servicio de envío activo. La futura integración con Resend está PENDIENTE DE ACTIVACIÓN. Antes de activarla deben confirmarse los campos tratados, finalidad, base jurídica, destinatarios, conservación, medidas aplicables y texto informativo. No se registra generate_lead hasta que un backend confirme la recepción correcta.'
+          ]
+        },
+        {
+          title: '7. Derechos y contacto',
+          paragraphs: [
+            'Los derechos aplicables, el procedimiento para ejercerlos, el canal de contacto y la autoridad competente deben ser definidos por asesoría jurídica cuando se confirme el responsable legal.'
+          ],
+          items: [
+            'Canal para ejercer derechos: [PENDIENTE DE CONFIRMACIÓN]',
+            'Procedimiento y plazos de respuesta: [PENDIENTE DE REVISIÓN LEGAL]',
+            'Autoridad competente: [PENDIENTE DE REVISIÓN LEGAL]'
+          ]
+        },
+        {
+          title: '8. Vigencia y aprobación',
+          paragraphs: [
+            'Fecha de entrada en vigor: [PENDIENTE DE APROBACIÓN]. Este documento continúa siendo un borrador hasta completar los datos pendientes y obtener revisión jurídica.'
+          ]
+        }
+      ]
+    }
+  : {
+      notice: 'DRAFT FOR LEGAL REVIEW — Not approved as a final policy.',
+      sections: [
+        {
+          title: '1. Trade name and data controller',
+          paragraphs: [
+            'Clean GO Punta Cana is the public trade name used to provide professional cleaning services in Punta Cana and nearby areas.',
+            'It currently operates as an informal business and its legal formalization is in progress. There is no incorporated Clean GO company or RNC of its own at this time. Legal information will be updated when formalization is complete.',
+            'The effective data controller must be confirmed and legally reviewed before this policy is approved.'
+          ],
+          items: [
+            'Website: https://www.cleangopuntacana.com',
+            'Phone and WhatsApp: +1 (849) 381-5983',
+            'General email: cleangodominicana@gmail.com',
+            'Effective data controller: [PENDING CONFIRMATION]',
+            'Legal name, RNC, and legal form: [NOT AVAILABLE; FORMALIZATION PENDING]',
+            'Registered address: [PENDING FORMALIZATION]',
+            'Dedicated privacy contact: [PENDING CONFIRMATION]'
+          ]
+        },
+        {
+          title: '2. Current data and purposes',
+          paragraphs: [
+            'The site uses Google Analytics 4 only after the visitor accepts analytics. It is used to understand general site usage and improve the service.',
+            'Measurement includes automatic page views and the contact_click event when a WhatsApp, phone, or email link is activated. This event contains only the contact method, page language, and button location. It does not contain the visitor’s name, phone number or email, free-text messages, or form values.',
+            'Depending on Google Analytics configuration and processing, technical data such as pages visited, device, browser, and approximate location may be processed. The final GA4 property configuration must be reviewed before this policy is approved.'
+          ]
+        },
+        {
+          title: '3. Consent, storage, and withdrawal',
+          paragraphs: [
+            'Google Analytics remains disabled and gtag.js is not loaded until the visitor accepts. The preference is stored in localStorage under the key cleango.analytics.consent.',
+            'The preference can be changed through the “Analytics settings” button. When consent is declined or withdrawn, the site disables future measurement, communicates the denial to Google Analytics, and removes accessible GA4 cookies where technically possible.',
+            'JavaScript removal cannot guarantee deletion of cookies using another domain or path, HttpOnly cookies, or data previously sent to Google.'
+          ]
+        },
+        {
+          title: '4. Legal basis, recipients, and transfers',
+          paragraphs: [
+            'The legal basis for each processing activity, Google contracting entity, recipients, and possible international transfers require confirmation and legal review before this policy is approved.'
+          ],
+          items: [
+            'Legal basis for analytics: [PENDING LEGAL REVIEW]',
+            'Providers and recipients: [PENDING CONFIRMATION]',
+            'International transfer mechanisms: [PENDING LEGAL REVIEW]'
+          ]
+        },
+        {
+          title: '5. Retention',
+          paragraphs: [
+            'The analytics preference remains in the browser until the visitor changes it, clears site data, or the browser removes it. Retention periods for GA4 and future contact data must be confirmed.'
+          ],
+          items: [
+            'GA4 retention setting: [PENDING CONFIRMATION]',
+            'Enquiry and customer retention period: [PENDING CONFIRMATION]'
+          ]
+        },
+        {
+          title: '6. Contact channels and future Resend form',
+          paragraphs: [
+            'WhatsApp, phone, and email links open the channel selected by the visitor. Further processing depends on the information the visitor chooses to provide through that channel.',
+            'The visible form does not yet have an active delivery service. Future Resend integration is PENDING ACTIVATION. Before activation, the processed fields, purpose, legal basis, recipients, retention, applicable safeguards, and privacy notice must be confirmed. No generate_lead event is recorded until a backend confirms successful receipt.'
+          ]
+        },
+        {
+          title: '7. Rights and contact',
+          paragraphs: [
+            'Applicable rights, the process to exercise them, contact channel, and competent authority must be defined with legal counsel after the legal controller is confirmed.'
+          ],
+          items: [
+            'Rights request channel: [PENDING CONFIRMATION]',
+            'Procedure and response deadlines: [PENDING LEGAL REVIEW]',
+            'Competent authority: [PENDING LEGAL REVIEW]'
+          ]
+        },
+        {
+          title: '8. Effective date and approval',
+          paragraphs: [
+            'Effective date: [PENDING APPROVAL]. This document remains a draft until all pending information is completed and legal review is obtained.'
+          ]
+        }
+      ]
+    };
+---
+
+<PageIntro eyebrow={page.heroEyebrow} title={page.heroTitle} copy={page.heroCopy} />
+
+<article class="section-shell section-pad max-w-4xl">
+  <p class="rounded-2xl border border-amber-300 bg-amber-50 px-5 py-4 font-bold text-amber-950" role="note">
+    {copy.notice}
+  </p>
+
+  <div class="mt-10 space-y-10">
+    {copy.sections.map((section) => (
+      <section aria-labelledby={`privacy-section-${section.title.charAt(0)}`}>
+        <h2 id={`privacy-section-${section.title.charAt(0)}`} class="text-2xl font-black text-brand-navy">{section.title}</h2>
+        <div class="mt-4 space-y-4 text-base leading-7 text-brand-slate">
+          {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+          {section.items && (
+            <ul class="list-disc space-y-2 pl-6">
+              {section.items.map((item) => <li>{item}</li>)}
+            </ul>
+          )}
+        </div>
+      </section>
+    ))}
+  </div>
+</article>
