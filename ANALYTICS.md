@@ -8,19 +8,27 @@ Clean GO Punta Cana uses Google Analytics 4 through `gtag.js` with measurement I
 - The choice is stored in `localStorage` under `cleango.analytics.consent` and can be changed through the persistent analytics settings button.
 - Rejecting before acceptance keeps Google Analytics unloaded. Revoking after acceptance sets Google's disable flag, updates analytics consent to denied, and removes accessible GA cookies for the current host and apex domain.
 - Advertising storage, advertising user data, and ad personalization remain denied.
+- Google Signals is disabled.
 
 Cookie removal is best effort: JavaScript cannot remove cookies with a different path/domain or `HttpOnly`, and revocation cannot delete data already received by Google.
 
-Draft privacy policies are available at `/privacy/` and `/es/privacidad/`. They are not approved final policies. Before deployment, legal review must confirm the controller and contact details, purposes and legal basis, Google and other recipients, cookies and local storage, retention, international transfers, visitor rights and withdrawal method, and the policy's effective date. The consent wording, Google Signals settings, and GA4 data retention also require review.
+Public privacy policies are available at `/privacy/` and `/es/privacidad/`. The current controller is Rosa M. Jimenez, and the public controller details are centralized in `src/config/privacy.ts` for replacement when the future company assumes responsibility.
+
+## Verified GA4 property settings
+
+- Event data retention: 2 months.
+- User data retention: 14 months.
+- Reset retention on new activity: enabled.
+- Google Signals: disabled.
 
 ## Legal review checklist
 
-- Confirm the effective data controller and the legal identification that must appear publicly.
-- Assign responsibility for monitoring `cleangodominicana@gmail.com` and handling privacy requests.
-- Confirm the legal bases, applicable rights, request procedure, response periods, and competent authority.
-- Verify the relevant providers, Google contracting entity, international transfers, and GA4 retention setting.
+- Assign and document responsibility for monitoring `cleangodominicana@gmail.com` and handling privacy requests.
+- Confirm the legal bases, applicable rights, identity-verification procedure, response periods, and competent authority.
+- Verify the relevant providers, Google contracting entity, international transfers, and applicable safeguards.
 - Define retention for enquiries and customer records without publishing an unverified period.
-- Approve the final wording, effective date, and version before production.
+- Add the real last-updated date when this version is approved and deployed; do not predate publication.
+- Replace the centralized controller details when a future company legally assumes responsibility.
 
 ## Events
 

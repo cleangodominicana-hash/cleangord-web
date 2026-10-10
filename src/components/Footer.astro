@@ -15,7 +15,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const dict = t(locale);
-const privacyLabel = locale === 'es' ? 'Política de privacidad (borrador)' : 'Privacy policy (draft)';
+const privacyLabel = locale === 'es' ? 'Política de privacidad' : 'Privacy policy';
 ---
 
 <footer class="mt-16 bg-brand-navy text-white" data-analytics-location="footer">
