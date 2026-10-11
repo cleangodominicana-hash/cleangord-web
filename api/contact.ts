@@ -1,4 +1,24 @@
-import { serviceIds, serviceLabels, type ServiceId } from '../src/config/contact.ts';
+export const serviceLabels = {
+  en: {
+    'airbnb-cleaning': 'Airbnb Cleaning',
+    'villa-cleaning': 'Villa Cleaning',
+    'apartment-cleaning': 'Apartment Cleaning',
+    'deep-cleaning': 'Deep Cleaning',
+    'scheduled-cleaning': 'Scheduled Cleaning',
+    'light-maintenance': 'Light Maintenance'
+  },
+  es: {
+    'airbnb-cleaning': 'Limpieza de Airbnb',
+    'villa-cleaning': 'Limpieza de Villas',
+    'apartment-cleaning': 'Limpieza de Apartamentos',
+    'deep-cleaning': 'Limpieza Profunda',
+    'scheduled-cleaning': 'Servicios Programados',
+    'light-maintenance': 'Mantenimiento Ligero'
+  }
+} as const;
+
+export const serviceIds = Object.keys(serviceLabels.en) as ServiceId[];
+type ServiceId = keyof typeof serviceLabels.en;
 
 const MAX_BODY_BYTES = 12_000;
 const PRODUCTION_ORIGIN = 'https://www.cleangopuntacana.com';

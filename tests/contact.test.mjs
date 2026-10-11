@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { afterEach, beforeEach, test } from 'node:test';
-import handler from '../api/contact.ts';
+import handler, { serviceIds, serviceLabels } from '../api/contact.ts';
+import { serviceIds as formServiceIds, serviceLabels as formServiceLabels } from '../src/config/contact.ts';
 
 const origin = 'https://www.cleangopuntacana.com';
 const originalFetch = globalThis.fetch;
@@ -38,6 +40,13 @@ beforeEach(() => {
 
 afterEach(() => {
   globalThis.fetch = originalFetch;
+});
+
+test('loads as a self-contained Vercel Function and keeps form services in sync', async () => {
+  const source = await readFile(new URL('../api/contact.ts', import.meta.url), 'utf8');
+  assert.doesNotMatch(source, /^\s*import\s/m);
+  assert.deepEqual(serviceIds, [...formServiceIds]);
+  assert.deepEqual(serviceLabels, formServiceLabels);
 });
 
 test('rejects methods, content types, origins, malformed JSON, and oversized bodies', async (t) => {
@@ -83,6 +92,14 @@ test('fails safely when server variables are missing', async () => {
     assert.deepEqual(await response.json(), { ok: false, error: 'service_unavailable' });
     process.env[variable] = value;
   }
+});
+
+test('returns a controlled error without the Resend key in Preview', async () => {
+  process.env.VERCEL_ENV = 'preview';
+  delete process.env.RESEND_API_KEY;
+  const response = await handler(request());
+  assert.equal(response.status, 503);
+  assert.deepEqual(await response.json(), { ok: false, error: 'service_unavailable' });
 });
 
 test('returns a safe error when Resend rejects or cannot be reached', async () => {
