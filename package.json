@@ -21,6 +21,7 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.4",
     "@types/node": "24.12.2",
+    "@vercel/node": "23.0.1",
     "tailwindcss": "^4.2.4",
     "typescript": "5.9.3"
   }

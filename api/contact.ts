@@ -1,3 +1,5 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
 export const serviceLabels = {
   en: {
     'airbnb-cleaning': 'Airbnb Cleaning',
@@ -37,52 +39,61 @@ type ContactPayload = {
   startedAt?: unknown;
 };
 
-const json = (body: object, status: number, headers: HeadersInit = {}) =>
-  new Response(JSON.stringify(body), {
-    status,
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'no-store',
-      'X-Content-Type-Options': 'nosniff',
-      ...headers
-    }
-  });
-
 const validText = (value: unknown, min: number, max: number) =>
   typeof value === 'string' && value.trim().length >= min && value.trim().length <= max;
+
+const getHeader = (request: VercelRequest, name: string) => {
+  const value = request.headers[name.toLowerCase()];
+  return Array.isArray(value) ? value[0] ?? '' : value ?? '';
+};
 
 const allowedOrigins = () => {
   const origins = new Set([PRODUCTION_ORIGIN]);
   if (process.env.VERCEL_ENV !== 'production') {
+    if (/^[a-z0-9.-]+$/i.test(process.env.VERCEL_URL ?? '')) origins.add(`https://${process.env.VERCEL_URL}`);
     origins.add('http://localhost:3000');
     origins.add('http://localhost:4321');
   }
   return origins;
 };
 
-export default async function handler(request: Request): Promise<Response> {
+export default async function handler(request: VercelRequest, response: VercelResponse): Promise<void> {
+  const json = (body: object, status: number, headers: Record<string, string> = {}) => {
+    response.setHeader('Content-Type', 'application/json; charset=utf-8');
+    response.setHeader('Cache-Control', 'no-store');
+    response.setHeader('X-Content-Type-Options', 'nosniff');
+    for (const [name, value] of Object.entries(headers)) response.setHeader(name, value);
+    response.status(status).json(body);
+  };
+
   if (request.method !== 'POST') return json({ ok: false, error: 'method_not_allowed' }, 405, { Allow: 'POST' });
 
-  if (!allowedOrigins().has(request.headers.get('origin') ?? '')) {
+  if (!allowedOrigins().has(getHeader(request, 'origin'))) {
     return json({ ok: false, error: 'invalid_origin' }, 403);
   }
 
-  if (request.headers.get('content-type')?.split(';', 1)[0].trim().toLowerCase() !== 'application/json') {
+  if (getHeader(request, 'content-type').split(';', 1)[0].trim().toLowerCase() !== 'application/json') {
     return json({ ok: false, error: 'invalid_content_type' }, 415);
   }
 
-  const declaredLength = Number(request.headers.get('content-length'));
+  const declaredLength = Number(getHeader(request, 'content-length'));
   if (Number.isFinite(declaredLength) && declaredLength > MAX_BODY_BYTES) {
     return json({ ok: false, error: 'request_too_large' }, 413);
   }
 
   let rawBody: string;
   try {
-    rawBody = await request.text();
+    if (typeof request.body === 'string') rawBody = request.body;
+    else if (Buffer.isBuffer(request.body)) rawBody = request.body.toString('utf8');
+    else {
+      const serialized = JSON.stringify(request.body);
+      if (typeof serialized !== 'string') throw new TypeError('Invalid request body');
+      rawBody = serialized;
+    }
   } catch {
     return json({ ok: false, error: 'invalid_request' }, 400);
   }
-  if (new TextEncoder().encode(rawBody).byteLength > MAX_BODY_BYTES) {
+  if (Buffer.byteLength(rawBody, 'utf8') > MAX_BODY_BYTES) {
     return json({ ok: false, error: 'request_too_large' }, 413);
   }
 
@@ -96,7 +107,7 @@ export default async function handler(request: Request): Promise<Response> {
     return json({ ok: false, error: 'invalid_fields' }, 400);
   }
 
-  const idempotencyKey = request.headers.get('idempotency-key') ?? '';
+  const idempotencyKey = getHeader(request, 'idempotency-key');
   const locale = body.locale;
   const service = body.service;
   const phoneValid = body.phone === undefined || body.phone === '' || (
