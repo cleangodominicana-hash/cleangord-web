@@ -19,11 +19,13 @@ const routeMap: Record<string, string> = {
   '/coverage/': '/es/cobertura/',
   '/about/': '/es/nosotros/',
   '/contact/': '/es/contacto/',
+  '/privacy/': '/es/privacidad/',
   '/es/': '/',
   '/es/servicios/': '/services/',
   '/es/cobertura/': '/coverage/',
   '/es/nosotros/': '/about/',
   '/es/contacto/': '/contact/',
+  '/es/privacidad/': '/privacy/',
 };
 
 const alternatePath = routeMap[pathname] ?? (locale === 'en' ? '/es/' : '/');
@@ -37,7 +39,7 @@ const isotipo = '/images/isotipo.png';
     <a href={getPath(locale, 'home')} class="flex shrink-0 items-center gap-3">
       <img
         src={isotipo}
-        alt="CleanGo logo"
+        alt={dict.accessibility.logo}
         class="h-11 w-11 rounded-2xl object-contain"
       />
       <span>
@@ -85,7 +87,7 @@ const isotipo = '/images/isotipo.png';
         href={getWhatsappUrl(locale)}
         target="_blank"
         rel="noreferrer"
-        class="inline-flex items-center gap-2 rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-navy"
+        class="inline-flex items-center gap-2 rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-brand-navy transition hover:bg-brand-navy hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
       >
         <img
           src={whatsappIcon}
@@ -102,7 +104,7 @@ const isotipo = '/images/isotipo.png';
       data-menu-button
       aria-expanded="false"
       aria-controls="mobile-nav"
-      aria-label="Toggle navigation menu"
+      aria-label={dict.accessibility.menu}
     >
       <Menu class="h-5 w-5" data-menu-open />
       <X class="hidden h-5 w-5" data-menu-close />
@@ -136,7 +138,7 @@ const isotipo = '/images/isotipo.png';
         href={getWhatsappUrl(locale)}
         target="_blank"
         rel="noreferrer"
-        class="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-white"
+        class="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-brand-navy hover:bg-brand-navy hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
       >
         <img
           src={whatsappIcon}

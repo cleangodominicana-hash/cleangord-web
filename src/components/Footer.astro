@@ -7,7 +7,7 @@ import {
   PhoneCall
 } from '@lucide/astro';
 import type { Locale } from '../i18n/config';
-import { getPath, getWhatsappUrl, siteSettings, t } from '../i18n/ui';
+import { getPath, getWhatsappUrl, siteSettings, socialLinks, t } from '../i18n/ui';
 
 interface Props {
   locale: Locale;
@@ -31,25 +31,17 @@ const privacyLabel = locale === 'es' ? 'Política de privacidad' : 'Privacy poli
       </div>
 
       <div class="flex items-center gap-3 text-white/80">
-        <a
-          href={siteSettings.social.facebook}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Facebook"
-          class="rounded-full border border-white/15 p-2 hover:text-brand-green"
-        >
-          <ExternalLink class="h-4 w-4" />
-        </a>
-
-        <a
-          href={siteSettings.social.instagram}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Instagram"
-          class="rounded-full border border-white/15 p-2 hover:text-brand-green"
-        >
-          <Mail class="h-4 w-4" />
-        </a>
+        {socialLinks.map(([name, url]) => (
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={name === 'facebook' ? 'Facebook' : 'Instagram'}
+            class="rounded-full border border-white/15 p-2 hover:text-brand-green"
+          >
+            <ExternalLink class="h-4 w-4" />
+          </a>
+        ))}
 
         <a
           href={getWhatsappUrl(locale)}
@@ -65,7 +57,7 @@ const privacyLabel = locale === 'es' ? 'Política de privacidad' : 'Privacy poli
 
     <div>
       <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-white/70">
-        Navigation
+        {dict.footer.navigation}
       </h2>
       <ul class="mt-5 space-y-3 text-sm text-white/85">
         {dict.nav.map((item) => (
@@ -80,7 +72,7 @@ const privacyLabel = locale === 'es' ? 'Política de privacidad' : 'Privacy poli
 
     <div>
       <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-white/70">
-        Coverage
+        {dict.footer.coverage}
       </h2>
       <ul class="mt-5 space-y-3 text-sm text-white/85">
         {siteSettings.areas.map((area) => <li>{area}</li>)}
@@ -89,7 +81,7 @@ const privacyLabel = locale === 'es' ? 'Política de privacidad' : 'Privacy poli
 
     <div>
       <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-white/70">
-        Contact
+        {dict.footer.contact}
       </h2>
       <ul class="mt-5 space-y-4 text-sm text-white/85">
         <li class="flex items-start gap-3">
@@ -104,7 +96,7 @@ const privacyLabel = locale === 'es' ? 'Política de privacidad' : 'Privacy poli
 
         <li class="flex items-start gap-3">
           <MapPin class="mt-0.5 h-4 w-4 text-brand-green" />
-          <span>{siteSettings.address}</span>
+          <span>{dict.footer.address}</span>
         </li>
       </ul>
     </div>
@@ -112,11 +104,11 @@ const privacyLabel = locale === 'es' ? 'Política de privacidad' : 'Privacy poli
 
   <div class="border-t border-white/10">
     <div class="section-shell flex flex-col gap-3 py-4 text-sm text-white/60 sm:flex-row sm:items-center sm:justify-between">
-      <p>© 2026 CleanGo. All rights reserved.</p>
+      <p>{dict.footer.copyright}</p>
       <a href={getPath(locale, 'privacy')} class="underline-offset-4 hover:text-white hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
         {privacyLabel}
       </a>
-      <p>{siteSettings.schedule}</p>
+      <p>{dict.footer.schedule}</p>
     </div>
   </div>
 </footer>

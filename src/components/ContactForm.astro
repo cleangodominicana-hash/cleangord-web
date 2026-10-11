@@ -41,22 +41,22 @@ const formCopy = locale === 'es'
       <div class="card-surface flex items-start gap-4 p-5">
         <span class="rounded-2xl bg-brand-mint p-3 text-brand-green"><PhoneCall class="h-5 w-5" /></span>
         <div>
-          <p class="font-bold text-brand-navy">Phone</p>
+          <p class="font-bold text-brand-navy">{dict.contact.fields.phone}</p>
           <a class="text-brand-slate" href={siteSettings.phoneHref}>{siteSettings.phoneDisplay}</a>
         </div>
       </div>
       <div class="card-surface flex items-start gap-4 p-5">
         <span class="rounded-2xl bg-brand-mint p-3 text-brand-green"><Mail class="h-5 w-5" /></span>
         <div>
-          <p class="font-bold text-brand-navy">Email</p>
+          <p class="font-bold text-brand-navy">{dict.contact.fields.email}</p>
           <a class="text-brand-slate" href={`mailto:${siteSettings.email}`}>{siteSettings.email}</a>
         </div>
       </div>
       <div class="card-surface flex items-start gap-4 p-5">
         <span class="rounded-2xl bg-brand-mint p-3 text-brand-green"><MapPin class="h-5 w-5" /></span>
         <div>
-          <p class="font-bold text-brand-navy">Address</p>
-          <p class="text-brand-slate">{siteSettings.address}</p>
+          <p class="font-bold text-brand-navy">{dict.contact.addressLabel}</p>
+          <p class="text-brand-slate">{dict.footer.address}</p>
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@ const formCopy = locale === 'es'
 
   <div class="card-surface p-8 sm:p-10">
     <div class="max-w-2xl">
-      <p class="text-sm font-semibold uppercase tracking-[0.18em] text-brand-green">{dict.contact.formTitle}</p>
+      <p class="text-sm font-semibold uppercase tracking-[0.18em] text-brand-navy">{dict.contact.formTitle}</p>
       <p class="mt-3 text-base leading-7 text-brand-slate">{dict.contact.formCopy}</p>
     </div>
     <form class="mt-8 grid gap-5 sm:grid-cols-2" method="post" action="/api/contact" data-contact-form>
@@ -101,7 +101,7 @@ const formCopy = locale === 'es'
         </p>
         <p class="min-h-6 text-sm font-semibold text-brand-slate" role="status" aria-live="polite" data-form-status></p>
       </div>
-      <button type="submit" class="inline-flex w-full items-center justify-center rounded-full bg-brand-green px-6 py-4 text-sm font-bold text-white transition hover:bg-brand-navy disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit">
+      <button type="submit" class="inline-flex w-full items-center justify-center rounded-full bg-brand-green px-6 py-4 text-sm font-bold text-brand-navy transition enabled:hover:bg-brand-navy enabled:hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy disabled:cursor-not-allowed disabled:bg-brand-green/60 disabled:text-brand-navy sm:w-fit">
         {dict.buttons.sendRequest}
       </button>
     </form>
