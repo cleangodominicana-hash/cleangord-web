@@ -42,6 +42,4 @@ No link URL, visitor name, phone number, email address, free-text message, or fo
 
 GA4 enhanced measurement may also emit its standard outbound `click` event for WhatsApp. Reports should use `contact_click` for contact intent and must not add the standard `click` count to it.
 
-## Future Resend integration
-
-Do not emit `generate_lead` on form submit. When Resend is implemented, emit it only after the backend confirms successful receipt, without personal data or free-text fields.
+`generate_lead` is sent only after the contact endpoint returns `ok: true` following Resend acceptance and only when analytics consent is granted. Its only parameter is `page_language`; form values and Resend identifiers are never sent to GA4.

@@ -9,7 +9,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "node --experimental-strip-types --test tests/contact.test.mjs tests/contact-form.test.mjs",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
@@ -18,6 +20,9 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.4",
-    "tailwindcss": "^4.2.4"
+    "@types/node": "24.12.2",
+    "@vercel/node": "23.0.1",
+    "tailwindcss": "^4.2.4",
+    "typescript": "5.9.3"
   }
 }

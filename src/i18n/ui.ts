@@ -202,7 +202,7 @@ export const dictionaries: Record<Locale, Translation> = {
       title: "Let’s talk about your property",
       copy: "Message us to schedule a cleaning, ask about availability, or request information about scheduled services in Punta Cana.",
       formTitle: "Request information",
-      formCopy: "Use this form as a base. Later, you can connect it to Formspree, Basin, Resend, or your own backend.",
+      formCopy: "Tell us what you need and we will contact you to coordinate the next step.",
       directTitle: "Direct contact",
       fields: {
         name: "Name",
@@ -362,7 +362,7 @@ export const dictionaries: Record<Locale, Translation> = {
       title: "Hablemos de tu propiedad",
       copy: "Escríbenos para coordinar una limpieza, consultar disponibilidad o solicitar información sobre servicios programados en Punta Cana.",
       formTitle: "Solicita información",
-      formCopy: "Usa este formulario como base. Luego podrás conectarlo con Formspree, Basin, Resend o tu propio backend.",
+      formCopy: "Cuéntanos qué necesitas y te contactaremos para coordinar el siguiente paso.",
       directTitle: "Contacto directo",
       fields: {
         name: "Nombre",
