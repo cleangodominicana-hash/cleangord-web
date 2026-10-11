@@ -59,6 +59,7 @@ const invoke = async (req = request()) => {
 beforeEach(() => {
   process.env.VERCEL_ENV = 'production';
   delete process.env.VERCEL_URL;
+  delete process.env.VERCEL_BRANCH_URL;
   process.env.RESEND_API_KEY = 'test-key';
   process.env.CONTACT_FROM = 'Clean GO <contact@cleangopuntacana.com>';
   process.env.CONTACT_TO = 'owner@example.com';
@@ -90,6 +91,35 @@ test('handles Vercel headers, methods, JSON, malformed bodies, and size limits',
   await t.test('malformed JSON', async () => assert.equal((await invoke(request(undefined, { rawBody: '{' }))).statusCode, 400));
   await t.test('declared size', async () => assert.equal((await invoke(request(undefined, { headers: { 'content-length': '12001' } }))).statusCode, 413));
   await t.test('actual size', async () => assert.equal((await invoke(request(validPayload({ message: 'x'.repeat(12_001) })))).statusCode, 413));
+});
+
+test('allows only exact origins for each Vercel environment', async (t) => {
+  await t.test('production', async () => assert.equal((await invoke()).statusCode, 200));
+
+  await t.test('preview deployment URL', async () => {
+    process.env.VERCEL_ENV = 'preview';
+    process.env.VERCEL_URL = 'cleango-a1b2c3-team.vercel.app';
+    const res = await invoke(request(undefined, { origin: 'https://cleango-a1b2c3-team.vercel.app' }));
+    assert.equal(res.statusCode, 200);
+  });
+  await t.test('preview branch URL', async () => {
+    process.env.VERCEL_ENV = 'preview';
+    process.env.VERCEL_BRANCH_URL = 'cleango-git-develop-team.vercel.app';
+    const res = await invoke(request(undefined, { origin: 'https://cleango-git-develop-team.vercel.app' }));
+    assert.equal(res.statusCode, 200);
+  });
+  await t.test('external origin', async () => {
+    const res = await invoke(request(undefined, { origin: 'https://evil.example' }));
+    assert.equal(res.statusCode, 403);
+    assert.deepEqual(res.body, { ok: false, error: 'invalid_origin' });
+  });
+  await t.test('missing origin', async () => {
+    const req = request();
+    delete req.headers.origin;
+    const res = await invoke(req);
+    assert.equal(res.statusCode, 403);
+    assert.deepEqual(res.body, { ok: false, error: 'invalid_origin' });
+  });
 });
 
 test('rejects invalid fields, service, locale, honeypot, timing, and idempotency key', async () => {
@@ -130,9 +160,10 @@ test('fails safely when server variables are missing', async () => {
 
 test('returns a controlled error without the Resend key in Preview', async () => {
   process.env.VERCEL_ENV = 'preview';
-  process.env.VERCEL_URL = 'cleango-preview.vercel.app';
+  process.env.VERCEL_URL = 'cleango-a1b2c3-team.vercel.app';
+  process.env.VERCEL_BRANCH_URL = 'cleango-git-develop-team.vercel.app';
   delete process.env.RESEND_API_KEY;
-  const res = await invoke(request(undefined, { origin: 'https://cleango-preview.vercel.app' }));
+  const res = await invoke(request(undefined, { origin: 'https://cleango-git-develop-team.vercel.app' }));
   assert.equal(res.statusCode, 503);
   assert.deepEqual(res.body, { ok: false, error: 'service_unavailable' });
 });

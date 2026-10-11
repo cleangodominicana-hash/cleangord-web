@@ -47,10 +47,22 @@ const getHeader = (request: VercelRequest, name: string) => {
   return Array.isArray(value) ? value[0] ?? '' : value ?? '';
 };
 
+const vercelOrigin = (hostname: string | undefined) => {
+  if (!hostname || !/^[a-z0-9.-]+$/i.test(hostname)) return null;
+  const url = new URL(`https://${hostname}`);
+  return url.hostname === hostname.toLowerCase() && url.host === url.hostname ? url.origin : null;
+};
+
 const allowedOrigins = () => {
-  const origins = new Set([PRODUCTION_ORIGIN]);
-  if (process.env.VERCEL_ENV !== 'production') {
-    if (/^[a-z0-9.-]+$/i.test(process.env.VERCEL_URL ?? '')) origins.add(`https://${process.env.VERCEL_URL}`);
+  if (process.env.VERCEL_ENV === 'production') return new Set([PRODUCTION_ORIGIN]);
+
+  const origins = new Set<string>();
+  if (process.env.VERCEL_ENV === 'preview') {
+    for (const hostname of [process.env.VERCEL_URL, process.env.VERCEL_BRANCH_URL]) {
+      const origin = vercelOrigin(hostname);
+      if (origin) origins.add(origin);
+    }
+  } else {
     origins.add('http://localhost:3000');
     origins.add('http://localhost:4321');
   }
