@@ -12,6 +12,8 @@ export type Translation = {
   siteName: string;
   description: string;
   ogLocale: string;
+  accessibility: { skipToContent: string; menu: string; logo: string };
+  footer: { navigation: string; coverage: string; contact: string; copyright: string; schedule: string; address: string };
   nav: { key: RouteKey; label: string }[];
   buttons: {
     whatsapp: string;
@@ -23,6 +25,8 @@ export type Translation = {
     eyebrow: string;
     title: string;
     copy: string;
+    imageAlt: string;
+    coverageLabel: string;
     benefits: { title: string; copy: string }[];
     stats: { title: string; copy: string }[];
   };
@@ -42,6 +46,7 @@ export type Translation = {
     eyebrow: string;
     title: string;
     copy: string;
+    itemCopy: string;
   };
   beforeAfter: {
     eyebrow: string;
@@ -69,6 +74,7 @@ export type Translation = {
     formTitle: string;
     formCopy: string;
     directTitle: string;
+    addressLabel: string;
     fields: {
       name: string;
       email: string;
@@ -102,6 +108,10 @@ export const siteSettings = {
   },
 } as const;
 
+export const socialLinks = Object.entries(siteSettings.social).filter(([, url]) =>
+  URL.canParse(url) && new URL(url).protocol === 'https:'
+);
+
 export const dictionaries: Record<Locale, Translation> = {
   en: {
     localeName: "English",
@@ -109,6 +119,12 @@ export const dictionaries: Record<Locale, Translation> = {
     siteName: "Clean GO Punta Cana",
     description: "Professional cleaning services in Punta Cana for Airbnb, villas, apartments, and property care.",
     ogLocale: "en_US",
+    accessibility: { skipToContent: "Skip to content", menu: "Toggle navigation menu", logo: "Clean GO Punta Cana logo" },
+    footer: {
+      navigation: "Navigation", coverage: "Coverage", contact: "Contact",
+      copyright: "© 2026 CleanGo. All rights reserved.",
+      schedule: siteSettings.schedule, address: siteSettings.address,
+    },
     nav: [
       { key: "home", label: "Home" },
       { key: "services", label: "Services" },
@@ -126,6 +142,8 @@ export const dictionaries: Record<Locale, Translation> = {
       eyebrow: "Your property, our priority",
       title: "Professional cleaning for Airbnb, villas, and properties in Punta Cana",
       copy: "We help owners, hosts, and property managers keep every space spotless, guest-ready, and aligned with premium standards.",
+      imageAlt: "Bright and spotless property in Punta Cana",
+      coverageLabel: "Coverage",
       benefits: [
         { title: "Fast response", copy: "Clear coordination and punctual service" },
         { title: "Trusted teams", copy: "Careful attention to detail" },
@@ -164,6 +182,7 @@ export const dictionaries: Record<Locale, Translation> = {
       eyebrow: "Local coverage",
       title: "Punta Cana and nearby areas",
       copy: "We focus on strategic local coverage to respond faster, coordinate better, and deliver a more reliable service.",
+      itemCopy: "Local property care and cleaning",
     },
     beforeAfter: {
       eyebrow: "Results that speak",
@@ -204,6 +223,7 @@ export const dictionaries: Record<Locale, Translation> = {
       formTitle: "Request information",
       formCopy: "Tell us what you need and we will contact you to coordinate the next step.",
       directTitle: "Direct contact",
+      addressLabel: "Address",
       fields: {
         name: "Name",
         email: "Email",
@@ -269,6 +289,12 @@ export const dictionaries: Record<Locale, Translation> = {
     siteName: "Clean GO Punta Cana",
     description: "Servicios de limpieza profesional en Punta Cana para Airbnb, villas, apartamentos y cuidado general de propiedades.",
     ogLocale: "es_DO",
+    accessibility: { skipToContent: "Saltar al contenido", menu: "Abrir o cerrar el menú de navegación", logo: "Logotipo de Clean GO Punta Cana" },
+    footer: {
+      navigation: "Navegación", coverage: "Cobertura", contact: "Contacto",
+      copyright: "© 2026 CleanGo. Todos los derechos reservados.",
+      schedule: "Lun - Dom: 7:00 a. m. - 7:00 p. m.", address: "Punta Cana, República Dominicana",
+    },
     nav: [
       { key: "home", label: "Inicio" },
       { key: "services", label: "Servicios" },
@@ -285,24 +311,26 @@ export const dictionaries: Record<Locale, Translation> = {
     hero: {
       eyebrow: "Tu propiedad, nuestra prioridad",
       title: "Limpieza profesional para Airbnb, villas y propiedades en Punta Cana",
-      copy: "Ayudamos a propietarios, hosts y administradores a mantener cada espacio impecable, listo para recibir huéspedes y alineado con un estándar premium.",
+      copy: "Ayudamos a propietarios, anfitriones y administradores a mantener cada espacio impecable, listo para recibir huéspedes y alineado con un estándar premium.",
+      imageAlt: "Propiedad luminosa e impecable en Punta Cana",
+      coverageLabel: "Cobertura",
       benefits: [
         { title: "Respuesta rápida", copy: "Coordinación clara y servicio puntual" },
         { title: "Equipos confiables", copy: "Atención cuidadosa al detalle" },
         { title: "Resultados para huéspedes", copy: "Espacios listos para impresionar" },
       ],
       stats: [
-        { title: "Airbnb Ready", copy: "Turnovers consistentes entre reservas" },
+        { title: "Lista para Airbnb", copy: "Limpiezas consistentes entre reservas" },
         { title: "Locales en Punta Cana", copy: "Coordinación rápida y cobertura cercana" },
       ],
     },
     servicesSection: {
       eyebrow: "Nuestros servicios",
-      title: "Soluciones de limpieza pensadas para propietarios y hosts",
-      copy: "Desde turnovers rápidos para Airbnb hasta limpieza profunda y servicio programado, cada solución está diseñada para darte consistencia y tranquilidad.",
+      title: "Soluciones de limpieza pensadas para propietarios y anfitriones",
+      copy: "Desde limpiezas rápidas entre reservas de Airbnb hasta limpieza profunda y servicio programado, cada solución está diseñada para darte consistencia y tranquilidad.",
     },
     services: [
-      { title: "Limpieza de Airbnb", description: "Turnovers rápidos y profesionales para recibir huéspedes con confianza.", icon: "🛏️" },
+      { title: "Limpieza de Airbnb", description: "Limpiezas rápidas y profesionales entre reservas para recibir huéspedes con confianza.", icon: "🛏️" },
       { title: "Limpieza de Villas", description: "Cuidado premium para villas de alto nivel que necesitan una presentación impecable.", icon: "🏡" },
       { title: "Limpieza de Apartamentos", description: "Espacios impecables para vivir, alquilar o recibir visitas.", icon: "🏢" },
       { title: "Limpieza Profunda", description: "Limpieza detallada y desinfección para una renovación completa del espacio.", icon: "✨" },
@@ -314,9 +342,9 @@ export const dictionaries: Record<Locale, Translation> = {
       title: "Una propiedad más limpia, menos estrés y mejor experiencia para tus huéspedes",
       bullets: ["Servicio responsable enfocado en una presentación impecable.", "Ideal para Airbnb, villas y propiedades que necesitan verse listas en todo momento.", "Comunicación clara y coordinación rápida.", "Un enfoque práctico que te ayuda a ahorrar tiempo y proteger tu reputación."],
       stats: [
-        { title: "Airbnb Ready", copy: "Preparación rápida entre reservas" },
+        { title: "Lista para Airbnb", copy: "Preparación rápida entre reservas" },
         { title: "Respuesta ágil", copy: "Comunicación y coordinación a tiempo" },
-        { title: "Before / After", copy: "Evidencia visual que genera confianza" },
+        { title: "Antes / después", copy: "Evidencia visual que genera confianza" },
         { title: "Punta Cana", copy: "Servicio local en zonas clave" },
       ],
     },
@@ -324,6 +352,7 @@ export const dictionaries: Record<Locale, Translation> = {
       eyebrow: "Cobertura local",
       title: "Punta Cana y zonas cercanas",
       copy: "Nos enfocamos en una cobertura estratégica para responder más rápido, coordinarnos mejor y ofrecer un servicio más confiable.",
+      itemCopy: "Cuidado y limpieza de propiedades en la zona",
     },
     beforeAfter: {
       eyebrow: "Resultados que hablan",
@@ -349,7 +378,7 @@ export const dictionaries: Record<Locale, Translation> = {
       title: "Todo claro antes de contratarnos",
     },
     faqs: [
-      { question: "¿Trabajan con propiedades Airbnb?", answer: "Sí. Nos enfocamos en turnovers, limpiezas entre reservas y preparación de la propiedad para la llegada de nuevos huéspedes." },
+      { question: "¿Trabajan con propiedades Airbnb?", answer: "Sí. Nos enfocamos en limpiezas entre reservas y preparación de la propiedad para la llegada de nuevos huéspedes." },
       { question: "¿Atienden villas y apartamentos?", answer: "Sí. Trabajamos con villas, apartamentos, alquileres vacacionales y propiedades residenciales en Punta Cana y zonas cercanas." },
       { question: "¿Ofrecen servicio programado?", answer: "Sí. Podemos coordinar visitas semanales, quincenales o mensuales según la necesidad de cada cliente." },
       { question: "¿Cómo solicito una cotización?", answer: "Puedes escribirnos por WhatsApp o completar el formulario de contacto. Te responderemos lo antes posible." },
@@ -364,6 +393,7 @@ export const dictionaries: Record<Locale, Translation> = {
       formTitle: "Solicita información",
       formCopy: "Cuéntanos qué necesitas y te contactaremos para coordinar el siguiente paso.",
       directTitle: "Contacto directo",
+      addressLabel: "Dirección",
       fields: {
         name: "Nombre",
         email: "Correo",
@@ -390,7 +420,7 @@ export const dictionaries: Record<Locale, Translation> = {
         title: "Servicios | CleanGo Punta Cana",
         description: "Conoce nuestros servicios de limpieza para Airbnb, villas, apartamentos, limpieza profunda y servicio programado en Punta Cana.",
         heroEyebrow: "Servicios",
-        heroTitle: "Servicios de limpieza pensados para hosts de Airbnb, villas y propiedades administradas",
+        heroTitle: "Servicios de limpieza pensados para anfitriones de Airbnb, villas y propiedades administradas",
         heroCopy: "Cada servicio está diseñado para mejorar la presentación, ahorrarte tiempo y mantener tu operación bajo control.",
       },
       coverage: {

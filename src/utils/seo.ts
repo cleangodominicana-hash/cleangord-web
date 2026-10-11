@@ -1,4 +1,4 @@
-import { siteSettings } from '../i18n/ui';
+import { siteSettings, socialLinks } from '../i18n/ui';
 import { getPath } from '../i18n/ui';
 import type { Locale } from '../i18n/config';
 
@@ -31,7 +31,7 @@ export function organizationSchema(locale: Locale, description: string) {
         },
         areaServed: siteSettings.areas,
         availableLanguage: locale === 'es' ? ['Spanish', 'English'] : ['English', 'Spanish'],
-        sameAs: [siteSettings.social.facebook, siteSettings.social.instagram].filter(Boolean)
+        sameAs: socialLinks.map(([, url]) => url)
       },
       {
         '@type': 'WebSite',

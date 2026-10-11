@@ -43,7 +43,7 @@ const benefitIcons = [Clock3, ShieldCheck, BadgeCheck];
           href={getWhatsappUrl(locale)}
           target="_blank"
           rel="noreferrer"
-          class="inline-flex items-center justify-center gap-2 rounded-full bg-brand-green px-6 py-4 text-sm font-bold text-white transition hover:bg-brand-navy"
+          class="inline-flex items-center justify-center gap-2 rounded-full bg-brand-green px-6 py-4 text-sm font-bold text-brand-navy transition hover:bg-brand-navy hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
         >
           <MessageCircleMore class="h-4 w-4" />
           {dict.buttons.whatsapp}
@@ -70,7 +70,7 @@ const benefitIcons = [Clock3, ShieldCheck, BadgeCheck];
         <div class="relative aspect-[4/4.2] w-full overflow-hidden">
           <img
             src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1400&q=80"
-            alt="Bright and spotless property in Punta Cana"
+            alt={dict.hero.imageAlt}
             class="h-full w-full object-cover"
             loading="eager"
           />
@@ -86,7 +86,7 @@ const benefitIcons = [Clock3, ShieldCheck, BadgeCheck];
         </div>
       </div>
       <div class="absolute -left-4 -top-4 hidden rounded-3xl bg-brand-navy px-5 py-4 text-white shadow-xl lg:block">
-        <p class="text-xs uppercase tracking-[0.2em] text-white/60">Coverage</p>
+        <p class="text-xs uppercase tracking-[0.2em] text-white/60">{dict.hero.coverageLabel}</p>
         <p class="mt-1 text-lg font-bold">{siteSettings.areas.join(' · ')}</p>
       </div>
     </div>
