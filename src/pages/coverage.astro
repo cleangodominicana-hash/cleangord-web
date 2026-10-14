@@ -10,15 +10,15 @@ const dict = t(locale);
 <MainLayout title={dict.pages.coverage.title} description={dict.pages.coverage.description} locale={locale} routeKey="coverage">
   <PageIntro eyebrow={dict.pages.coverage.heroEyebrow} title={dict.pages.coverage.heroTitle} copy={dict.pages.coverage.heroCopy} />
   <CoverageBlock locale={locale} />
-  <section class="section-sm">
-    <div class="container grid grid-2 mx-auto">
-      <article class="card" style="padding:1.8rem;">
-        <h2>Punta Cana</h2>
-        <p>Cleaning support for vacation rentals, villas, apartments, and managed properties.</p>
+  <section class="section-shell pt-16 md:pt-20">
+    <div class="grid gap-6 md:grid-cols-2">
+      <article class="card-surface h-full p-7 sm:p-8">
+        <h2 class="text-2xl font-black text-brand-navy">Punta Cana</h2>
+        <p class="mt-4 text-base leading-7 text-brand-slate">Cleaning support for vacation rentals, villas, apartments, and managed properties.</p>
       </article>
-      <article class="card" style="padding:1.8rem;">
-        <h2>{siteSettings.areas.slice(1).join(', ')}</h2>
-        <p>Strategic nearby coverage for clients who need speed, consistency, and easy coordination.</p>
+      <article class="card-surface h-full p-7 sm:p-8">
+        <h2 class="text-2xl font-black text-brand-navy">{siteSettings.areas.slice(1).join(', ')}</h2>
+        <p class="mt-4 text-base leading-7 text-brand-slate">Strategic nearby coverage for clients who need speed, consistency, and easy coordination.</p>
       </article>
     </div>
   </section>

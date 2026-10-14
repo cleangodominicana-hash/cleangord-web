@@ -85,17 +85,17 @@ const privacyLabel = locale === 'es' ? 'Política de privacidad' : 'Privacy poli
       </h2>
       <ul class="mt-5 space-y-4 text-sm text-white/85">
         <li class="flex items-start gap-3">
-          <PhoneCall class="mt-0.5 h-4 w-4 text-brand-green" />
+          <PhoneCall class="mt-0.5 h-4 w-4 shrink-0 text-brand-green" aria-hidden="true" />
           <a href={siteSettings.phoneHref}>{siteSettings.phoneDisplay}</a>
         </li>
 
         <li class="flex items-start gap-3">
-          <Mail class="mt-0.5 h-4 w-4 text-brand-green" />
-          <a href={`mailto:${siteSettings.email}`}>{siteSettings.email}</a>
+          <Mail class="mt-0.5 h-4 w-4 shrink-0 text-brand-green" aria-hidden="true" />
+          <a class="break-all" href={`mailto:${siteSettings.email}`}>{siteSettings.email}</a>
         </li>
 
         <li class="flex items-start gap-3">
-          <MapPin class="mt-0.5 h-4 w-4 text-brand-green" />
+          <MapPin class="mt-0.5 h-4 w-4 shrink-0 text-brand-green" aria-hidden="true" />
           <span>{dict.footer.address}</span>
         </li>
       </ul>

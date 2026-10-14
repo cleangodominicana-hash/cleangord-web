@@ -8,15 +8,15 @@ const dict = t(locale);
 ---
 <MainLayout title={dict.pages.about.title} description={dict.pages.about.description} locale={locale} routeKey="about">
   <PageIntro eyebrow={dict.pages.about.heroEyebrow} title={dict.pages.about.heroTitle} copy={dict.pages.about.heroCopy} />
-  <section class="section-sm">
-    <div class="container grid grid-2">
-      <article class="card" style="padding:2rem;">
-        <h2>Nuestra misión</h2>
-        <p>Ofrecer servicios de limpieza confiables y prácticos que ayuden a las propiedades en Punta Cana a mantenerse listas, atractivas y bien presentadas.</p>
+  <section class="section-shell pt-16 md:pt-20">
+    <div class="grid gap-6 md:grid-cols-2">
+      <article class="card-surface h-full p-7 sm:p-8">
+        <h2 class="text-2xl font-black text-brand-navy">Nuestra misión</h2>
+        <p class="mt-4 text-base leading-7 text-brand-slate">Ofrecer servicios de limpieza confiables y prácticos que ayuden a las propiedades en Punta Cana a mantenerse listas, atractivas y bien presentadas.</p>
       </article>
-      <article class="card" style="padding:2rem;">
-        <h2>Cómo trabajamos</h2>
-        <p>Priorizamos la comunicación clara, la coordinación eficiente y una ejecución cuidadosa para que cada propiedad se sienta limpia, controlada y lista para huéspedes.</p>
+      <article class="card-surface h-full p-7 sm:p-8">
+        <h2 class="text-2xl font-black text-brand-navy">Cómo trabajamos</h2>
+        <p class="mt-4 text-base leading-7 text-brand-slate">Priorizamos la comunicación clara, la coordinación eficiente y una ejecución cuidadosa para que cada propiedad se sienta limpia, controlada y lista para huéspedes.</p>
       </article>
     </div>
   </section>
