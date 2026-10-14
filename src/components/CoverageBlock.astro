@@ -20,15 +20,15 @@ const dict = t(locale);
     </div>
     <div class="grid gap-4 sm:grid-cols-2">
       {siteSettings.areas.map((area) => (
-        <article class="card-surface flex items-center justify-between px-6 py-5">
-          <div class="flex items-center gap-3">
-            <span class="rounded-2xl bg-brand-mint p-3 text-brand-green"><MapPin class="h-5 w-5" /></span>
-            <div>
+        <article class="card-surface flex items-center justify-between gap-4 px-5 py-5 sm:px-6">
+          <div class="flex min-w-0 items-center gap-3">
+            <span class="flex shrink-0 items-center justify-center rounded-2xl bg-brand-mint p-3 text-brand-green"><MapPin class="h-5 w-5" aria-hidden="true" /></span>
+            <div class="min-w-0">
               <h3 class="text-lg font-bold text-brand-navy">{area}</h3>
-              <p class="text-sm text-brand-slate">{dict.coverage.itemCopy}</p>
+              <p class="text-sm leading-5 text-brand-slate">{dict.coverage.itemCopy}</p>
             </div>
           </div>
-          <MoveRight class="h-5 w-5 text-brand-blue" />
+          <MoveRight class="h-5 w-5 shrink-0 text-brand-blue" aria-hidden="true" />
         </article>
       ))}
     </div>

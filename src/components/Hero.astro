@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, BadgeCheck, Clock3, MessageCircleMore, PhoneCall, ShieldCheck } from '@lucide/astro';
+import { ArrowRight, BadgeCheck, Clock3, PhoneCall, ShieldCheck } from '@lucide/astro';
 import type { Locale } from '../i18n/config';
 import { getPath, getWhatsappUrl, siteSettings, t } from '../i18n/ui';
 
@@ -10,14 +10,15 @@ interface Props {
 const { locale } = Astro.props;
 const dict = t(locale);
 const benefitIcons = [Clock3, ShieldCheck, BadgeCheck];
+const whatsappIcon = '/images/whatsapp.svg';
 ---
 
 <section class="hero-grid overflow-hidden border-b border-brand-border/70" data-analytics-location="hero">
-  <div class="section-shell section-pad grid items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
-    <div class="space-y-8">
+  <div class="section-shell section-pad grid items-center gap-12 xl:grid-cols-[1.02fr_0.98fr]">
+    <div class="min-w-0 space-y-8">
       <div class="space-y-5">
         <span class="eyebrow">{dict.hero.eyebrow}</span>
-        <h1 class="max-w-3xl text-4xl font-black leading-tight tracking-tight text-brand-navy sm:text-5xl lg:text-6xl">
+        <h1 class="max-w-3xl text-4xl font-black leading-tight tracking-tight text-brand-navy sm:text-5xl xl:text-6xl">
           {dict.hero.title}
         </h1>
         <p class="max-w-2xl text-lg leading-8 text-brand-slate">
@@ -29,8 +30,8 @@ const benefitIcons = [Clock3, ShieldCheck, BadgeCheck];
         {dict.hero.benefits.map((benefit, index) => {
           const Icon = benefitIcons[index] ?? BadgeCheck;
           return (
-            <div class="rounded-3xl border border-brand-border bg-white/90 p-5 shadow-sm">
-              <Icon class="h-6 w-6 text-brand-green" />
+            <div class="h-full rounded-3xl border border-brand-border bg-white/90 p-5 text-center shadow-sm">
+              <Icon class="mx-auto h-6 w-6 text-brand-green" aria-hidden="true" />
               <h2 class="mt-4 text-base font-bold text-brand-navy">{benefit.title}</h2>
               <p class="mt-2 text-sm leading-6 text-brand-slate">{benefit.copy}</p>
             </div>
@@ -38,41 +39,47 @@ const benefitIcons = [Clock3, ShieldCheck, BadgeCheck];
         })}
       </div>
 
-      <div class="flex flex-col gap-3 sm:flex-row">
+      <div class="flex flex-col gap-3 md:flex-row md:flex-wrap">
         <a
           href={getWhatsappUrl(locale)}
           target="_blank"
           rel="noreferrer"
-          class="inline-flex items-center justify-center gap-2 rounded-full bg-brand-green px-6 py-4 text-sm font-bold text-brand-navy transition hover:bg-brand-navy hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+          class="inline-flex min-h-14 w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-green px-6 py-3 text-center text-sm font-bold leading-5 text-brand-navy transition hover:bg-brand-navy hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy md:w-auto md:flex-none"
         >
-          <MessageCircleMore class="h-4 w-4" />
-          {dict.buttons.whatsapp}
+          <img src={whatsappIcon} alt="" width="16" height="16" class="h-4 w-4 shrink-0 object-contain" aria-hidden="true" />
+          <span>{dict.buttons.whatsapp}</span>
         </a>
         <a
           href={siteSettings.phoneHref}
-          class="inline-flex items-center justify-center gap-2 rounded-full border border-brand-navy px-6 py-4 text-sm font-bold text-brand-navy transition hover:bg-brand-navy hover:text-white"
+          class="inline-flex min-h-14 w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-brand-navy px-6 py-3 text-center text-sm font-bold leading-5 text-brand-navy transition hover:bg-brand-navy hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy md:w-auto md:flex-none"
         >
-          <PhoneCall class="h-4 w-4" />
-          {dict.buttons.callNow}
+          <PhoneCall class="h-4 w-4 shrink-0" aria-hidden="true" />
+          <span>{dict.buttons.callNow}</span>
         </a>
         <a
           href={getPath(locale, 'services')}
-          class="inline-flex items-center justify-center gap-2 rounded-full border border-brand-border px-6 py-4 text-sm font-bold text-brand-slate transition hover:border-brand-blue hover:text-brand-blue"
+          class="inline-flex min-h-14 w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-brand-border px-6 py-3 text-center text-sm font-bold leading-5 text-brand-slate transition hover:border-brand-blue hover:text-brand-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy md:w-auto md:flex-none"
         >
-          {dict.buttons.viewServices}
-          <ArrowRight class="h-4 w-4" />
+          <span>{dict.buttons.viewServices}</span>
+          <ArrowRight class="h-4 w-4 shrink-0" aria-hidden="true" />
         </a>
       </div>
     </div>
 
-    <div class="relative">
+    <div class="relative min-w-0">
       <div class="card-surface overflow-hidden rounded-4xl">
         <div class="relative aspect-[4/4.2] w-full overflow-hidden">
           <img
-            src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1400&q=80"
+            src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=960&q=80"
+            srcset="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=640&q=80 640w, https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=960&q=80 960w, https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1400&q=80 1400w"
+            sizes="(min-width: 1280px) 620px, calc(100vw - 2rem)"
             alt={dict.hero.imageAlt}
+            width="1400"
+            height="1470"
             class="h-full w-full object-cover"
             loading="eager"
+            fetchpriority="high"
+            decoding="async"
           />
           <div class="absolute inset-0 bg-linear-to-t from-brand-navy/40 via-transparent to-transparent"></div>
           <div class="absolute bottom-5 left-5 right-5 grid gap-4 sm:grid-cols-2">
@@ -85,7 +92,7 @@ const benefitIcons = [Clock3, ShieldCheck, BadgeCheck];
           </div>
         </div>
       </div>
-      <div class="absolute -left-4 -top-4 hidden rounded-3xl bg-brand-navy px-5 py-4 text-white shadow-xl lg:block">
+      <div class="absolute -left-4 -top-4 hidden rounded-3xl bg-brand-navy px-5 py-4 text-white shadow-xl xl:block">
         <p class="text-xs uppercase tracking-[0.2em] text-white/60">{dict.hero.coverageLabel}</p>
         <p class="mt-1 text-lg font-bold">{siteSettings.areas.join(' · ')}</p>
       </div>

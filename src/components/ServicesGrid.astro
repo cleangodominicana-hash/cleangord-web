@@ -24,9 +24,9 @@ const icons = [BedDouble, House, Building2, Sparkles, CalendarClock, Wrench];
       {dict.services.map((service, index) => {
         const Icon = icons[index] ?? Sparkles;
         return (
-          <article class="card-surface p-7 transition duration-200 hover:-translate-y-1 hover:border-brand-green/40">
-            <div class="inline-flex rounded-2xl bg-brand-mint p-3 text-brand-green">
-              <Icon class="h-7 w-7" />
+          <article class="card-surface h-full p-7 text-center transition duration-200 hover:-translate-y-1 hover:border-brand-green/40">
+            <div class="mx-auto flex w-fit items-center justify-center rounded-2xl bg-brand-mint p-3 text-brand-green">
+              <Icon class="h-7 w-7" aria-hidden="true" />
             </div>
             <h3 class="mt-5 text-xl font-bold text-brand-navy">{service.title}</h3>
             <p class="mt-3 text-base leading-7 text-brand-slate">{service.description}</p>

@@ -8,15 +8,15 @@ const dict = t(locale);
 ---
 <MainLayout title={dict.pages.about.title} description={dict.pages.about.description} locale={locale} routeKey="about">
   <PageIntro eyebrow={dict.pages.about.heroEyebrow} title={dict.pages.about.heroTitle} copy={dict.pages.about.heroCopy} />
-  <section class="section-sm">
-    <div class="container grid grid-2">
-      <article class="card" style="padding:2rem;">
-        <h2>Our mission</h2>
-        <p>To deliver trusted, practical cleaning services that help properties in Punta Cana stay ready, attractive, and professionally presented.</p>
+  <section class="section-shell pt-16 md:pt-20">
+    <div class="grid gap-6 md:grid-cols-2">
+      <article class="card-surface h-full p-7 sm:p-8">
+        <h2 class="text-2xl font-black text-brand-navy">Our mission</h2>
+        <p class="mt-4 text-base leading-7 text-brand-slate">To deliver trusted, practical cleaning services that help properties in Punta Cana stay ready, attractive, and professionally presented.</p>
       </article>
-      <article class="card" style="padding:2rem;">
-        <h2>How we work</h2>
-        <p>We prioritize clear communication, efficient coordination, and careful execution so every property feels clean, controlled, and guest-ready.</p>
+      <article class="card-surface h-full p-7 sm:p-8">
+        <h2 class="text-2xl font-black text-brand-navy">How we work</h2>
+        <p class="mt-4 text-base leading-7 text-brand-slate">We prioritize clear communication, efficient coordination, and careful execution so every property feels clean, controlled, and guest-ready.</p>
       </article>
     </div>
   </section>
