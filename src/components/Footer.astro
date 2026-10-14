@@ -105,7 +105,7 @@ const privacyLabel = locale === 'es' ? 'Política de privacidad' : 'Privacy poli
   <div class="border-t border-white/10">
     <div class="section-shell flex flex-col gap-3 py-4 text-sm text-white/60 sm:flex-row sm:items-center sm:justify-between">
       <p>{dict.footer.copyright}</p>
-      <a href={getPath(locale, 'privacy')} class="underline-offset-4 hover:text-white hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+      <a href={getPath(locale, 'privacy')} class="self-start underline-offset-4 hover:text-white hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:self-auto">
         {privacyLabel}
       </a>
       <p>{dict.footer.schedule}</p>
