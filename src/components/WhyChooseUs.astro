@@ -31,10 +31,10 @@ const statIcons = [Sparkles, Clock3, Camera, MapPin];
       {dict.why.stats.map((item, index) => {
         const Icon = statIcons[index] ?? ShieldCheck;
         return (
-          <article class="h-full rounded-[2rem] bg-brand-navy p-7 text-white shadow-[0_20px_60px_rgba(11,47,99,0.18)]">
+          <article class="h-full rounded-[2rem] bg-brand-navy p-7 text-center text-white shadow-[0_20px_60px_rgba(11,47,99,0.18)]">
             <Icon class="mx-auto h-7 w-7 text-brand-green" aria-hidden="true" />
             <h3 class="mt-6 text-2xl font-black">{item.title}</h3>
-            <p class="mt-2 max-w-xs text-sm leading-6 text-white/75">{item.copy}</p>
+            <p class="mx-auto mt-2 max-w-xs text-sm leading-6 text-white/75">{item.copy}</p>
           </article>
         );
       })}
