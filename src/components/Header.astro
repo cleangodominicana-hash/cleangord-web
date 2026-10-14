@@ -91,14 +91,15 @@ const isotipo = '/images/isotipo.png';
         href={getWhatsappUrl(locale)}
         target="_blank"
         rel="noreferrer"
-        class="inline-flex items-center gap-2 rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-brand-navy transition hover:bg-brand-navy hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+        class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-brand-navy transition hover:bg-brand-navy hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
       >
         <img
           src={whatsappIcon}
-          alt="WhatsApp"
+          alt=""
           width="16"
           height="16"
-          class="h-4 w-4 object-contain"
+          class="h-4 w-4 shrink-0 object-contain"
+          aria-hidden="true"
         />
         {dict.buttons.whatsapp}
       </a>
@@ -146,14 +147,15 @@ const isotipo = '/images/isotipo.png';
         href={getWhatsappUrl(locale)}
         target="_blank"
         rel="noreferrer"
-        class="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-brand-navy hover:bg-brand-navy hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+        class="mt-2 inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-brand-navy hover:bg-brand-navy hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
       >
         <img
           src={whatsappIcon}
-          alt="WhatsApp"
+          alt=""
           width="16"
           height="16"
-          class="h-4 w-4 object-contain"
+          class="h-4 w-4 shrink-0 object-contain"
+          aria-hidden="true"
         />
         {dict.buttons.whatsapp}
       </a>

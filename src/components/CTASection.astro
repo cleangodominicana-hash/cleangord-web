@@ -1,5 +1,4 @@
 ---
-import { MessageCircleMore } from '@lucide/astro';
 import type { Locale } from '../i18n/config';
 import { getWhatsappUrl, t } from '../i18n/ui';
 
@@ -9,6 +8,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const dict = t(locale);
+const whatsappIcon = '/images/whatsapp.svg';
 ---
 
 <section class="section-shell section-pad" data-analytics-location="cta_section">
@@ -22,10 +22,10 @@ const dict = t(locale);
         href={getWhatsappUrl(locale)}
         target="_blank"
         rel="noreferrer"
-        class="inline-flex items-center justify-center gap-2 rounded-full bg-brand-green px-6 py-4 text-sm font-bold text-brand-navy transition hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:shrink-0"
+        class="inline-flex min-h-14 cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-green px-6 py-3 text-center text-sm font-bold leading-5 text-brand-navy transition hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:shrink-0"
       >
-        <MessageCircleMore class="h-4 w-4 shrink-0" aria-hidden="true" />
-        {dict.buttons.whatsapp}
+        <img src={whatsappIcon} alt="" width="16" height="16" class="h-4 w-4 shrink-0 object-contain" aria-hidden="true" />
+        <span>{dict.buttons.whatsapp}</span>
       </a>
     </div>
   </div>

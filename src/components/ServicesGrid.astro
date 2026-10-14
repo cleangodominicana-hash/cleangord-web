@@ -25,7 +25,7 @@ const icons = [BedDouble, House, Building2, Sparkles, CalendarClock, Wrench];
         const Icon = icons[index] ?? Sparkles;
         return (
           <article class="card-surface h-full p-7 transition duration-200 hover:-translate-y-1 hover:border-brand-green/40">
-            <div class="inline-flex items-center justify-center rounded-2xl bg-brand-mint p-3 text-brand-green">
+            <div class="mx-auto flex w-fit items-center justify-center rounded-2xl bg-brand-mint p-3 text-brand-green">
               <Icon class="h-7 w-7" aria-hidden="true" />
             </div>
             <h3 class="mt-5 text-xl font-bold text-brand-navy">{service.title}</h3>

@@ -3,7 +3,6 @@ import {
   ExternalLink,
   Mail,
   MapPin,
-  MessageCircleMore,
   PhoneCall
 } from '@lucide/astro';
 import type { Locale } from '../i18n/config';
@@ -16,6 +15,7 @@ interface Props {
 const { locale } = Astro.props;
 const dict = t(locale);
 const privacyLabel = locale === 'es' ? 'Política de privacidad' : 'Privacy policy';
+const whatsappIcon = '/images/whatsapp.svg';
 ---
 
 <footer class="mt-16 bg-brand-navy text-white" data-analytics-location="footer">
@@ -37,9 +37,9 @@ const privacyLabel = locale === 'es' ? 'Política de privacidad' : 'Privacy poli
             target="_blank"
             rel="noopener noreferrer"
             aria-label={name === 'facebook' ? 'Facebook' : 'Instagram'}
-            class="rounded-full border border-white/15 p-2 hover:text-brand-green"
+            class="inline-flex items-center justify-center rounded-full border border-white/15 p-2 hover:text-brand-green"
           >
-            <ExternalLink class="h-4 w-4" />
+            <ExternalLink class="h-4 w-4 shrink-0" />
           </a>
         ))}
 
@@ -48,9 +48,9 @@ const privacyLabel = locale === 'es' ? 'Política de privacidad' : 'Privacy poli
           target="_blank"
           rel="noopener noreferrer"
           aria-label="WhatsApp"
-          class="rounded-full border border-white/15 p-2 hover:text-brand-green"
+          class="inline-flex items-center justify-center rounded-full border border-white/15 p-2 hover:text-brand-green"
         >
-          <MessageCircleMore class="h-4 w-4" />
+          <img src={whatsappIcon} alt="" width="16" height="16" class="h-4 w-4 shrink-0 object-contain" aria-hidden="true" />
         </a>
       </div>
     </div>
