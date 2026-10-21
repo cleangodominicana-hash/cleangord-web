@@ -1,6 +1,6 @@
 ---
 import type { Locale } from '../i18n/config';
-import { getWhatsappUrl, t } from '../i18n/ui';
+import { getPath, getWhatsappUrl, t } from '../i18n/ui';
 
 interface Props {
   locale: Locale;
@@ -18,15 +18,23 @@ const whatsappIcon = '/images/whatsapp.svg';
         <p class="text-3xl font-black tracking-tight">{dict.cta.title}</p>
         <p class="mt-3 text-lg leading-8 text-white/75">{dict.cta.copy}</p>
       </div>
-      <a
-        href={getWhatsappUrl(locale)}
-        target="_blank"
-        rel="noreferrer"
-        class="inline-flex min-h-14 cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-green px-6 py-3 text-center text-sm font-bold leading-5 text-brand-navy transition hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:shrink-0"
-      >
-        <img src={whatsappIcon} alt="" width="16" height="16" class="h-4 w-4 shrink-0 object-contain" aria-hidden="true" />
-        <span>{dict.buttons.whatsapp}</span>
-      </a>
+      <div class="flex flex-col gap-3 sm:flex-row lg:shrink-0">
+        <a
+          href={getWhatsappUrl(locale)}
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex min-h-14 cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-green px-6 py-3 text-center text-sm font-bold leading-5 text-brand-navy transition hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        >
+          <img src={whatsappIcon} alt="" width="16" height="16" class="h-4 w-4 shrink-0 object-contain" aria-hidden="true" />
+          <span>{dict.buttons.whatsapp}</span>
+        </a>
+        <a
+          href={getPath(locale, 'contact')}
+          class="inline-flex min-h-14 cursor-pointer items-center justify-center rounded-full border border-white/40 px-6 py-3 text-center text-sm font-bold leading-5 text-white transition hover:border-white hover:bg-white hover:text-brand-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        >
+          {dict.buttons.requestQuote}
+        </a>
+      </div>
     </div>
   </div>
 </section>

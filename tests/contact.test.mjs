@@ -78,6 +78,13 @@ test('uses only an erased type import and keeps form services in sync', async ()
   assert.deepEqual(serviceLabels, formServiceLabels);
 });
 
+test('accepts every service offered by the contact form', async () => {
+  for (const service of formServiceIds) {
+    const res = await invoke(request(validPayload({ service })));
+    assert.equal(res.statusCode, 200, service);
+  }
+});
+
 test('handles Vercel headers, methods, JSON, malformed bodies, and size limits', async (t) => {
   await t.test('method', async () => {
     const res = await invoke(request(undefined, { method: 'GET' }));
