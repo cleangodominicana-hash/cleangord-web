@@ -1,15 +1,24 @@
 ---
-import { BedDouble, Building2, CalendarClock, House, Sparkles, Wrench } from '@lucide/astro';
+import { ArrowRight, BedDouble, BriefcaseBusiness, Building2, House, Sparkles } from '@lucide/astro';
 import type { Locale } from '../i18n/config';
-import { t } from '../i18n/ui';
+import { getPath, t } from '../i18n/ui';
 
 interface Props {
   locale: Locale;
+  showComplementary?: boolean;
 }
 
-const { locale } = Astro.props;
+const { locale, showComplementary = false } = Astro.props;
 const dict = t(locale);
-const icons = [BedDouble, House, Building2, Sparkles, CalendarClock, Wrench];
+const icons = [BedDouble, House, Sparkles, Building2, BriefcaseBusiness];
+// Keep paths aligned with the service order; null preserves the approved placeholder fallback.
+const serviceImages: (string | null)[] = [
+  '/images/services/servicio-airbnb.webp',
+  '/images/services/servicio-villas-apartamentos.webp',
+  '/images/services/servicio-postobra.webp',
+  '/images/services/servicio-areas-comunes.webp',
+  '/images/services/servicio-oficinas.webp',
+];
 ---
 
 <section class="section-pad">
@@ -23,16 +32,75 @@ const icons = [BedDouble, House, Building2, Sparkles, CalendarClock, Wrench];
     <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
       {dict.services.map((service, index) => {
         const Icon = icons[index] ?? Sparkles;
+        const image = serviceImages[index];
         return (
-          <article class="card-surface h-full p-7 text-center transition duration-200 hover:-translate-y-1 hover:border-brand-green/40">
-            <div class="mx-auto flex w-fit items-center justify-center rounded-2xl bg-brand-mint p-3 text-brand-green">
-              <Icon class="h-7 w-7" aria-hidden="true" />
+          <article class="card-surface group flex h-full flex-col overflow-hidden transition duration-200 hover:-translate-y-1 hover:border-brand-green/40">
+            <div class="aspect-video w-full overflow-hidden bg-linear-to-br from-brand-navy via-brand-blue to-brand-green">
+              {image ? (
+                <img
+                  src={image}
+                  alt={service.imageAlt}
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                  decoding="async"
+                  class="h-full w-full object-cover"
+                />
+              ) : (
+                <div
+                  class="flex h-full w-full flex-col items-center justify-center gap-3 bg-white/10 px-5 text-center text-white"
+                  role="img"
+                  aria-label={`${service.imageAlt}. ${dict.servicesSection.photoPending}`}
+                >
+                  <Icon class="h-10 w-10" aria-hidden="true" />
+                  <span class="text-xs font-bold uppercase tracking-[0.16em] text-white/85">{dict.servicesSection.photoPending}</span>
+                </div>
+              )}
             </div>
-            <h3 class="mt-5 text-xl font-bold text-brand-navy">{service.title}</h3>
-            <p class="mt-3 text-base leading-7 text-brand-slate">{service.description}</p>
+            <div class="flex flex-1 flex-col p-6 text-left">
+              <h3 class="text-xl font-bold text-brand-navy">{service.title}</h3>
+              <p class="mt-3 text-base leading-7 text-brand-slate">{service.summary}</p>
+              {showComplementary && (
+                <details class="mt-4 border-t border-brand-border pt-4">
+                  <summary class="cursor-pointer text-sm font-bold text-brand-blue focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy">
+                    {dict.servicesSection.detailsLabel}
+                  </summary>
+                  <p class="mt-3 text-sm leading-6 text-brand-slate">{service.description}</p>
+                </details>
+              )}
+              <a
+                href={getPath(locale, 'contact')}
+                class="mt-6 inline-flex w-fit items-center gap-2 rounded-sm text-sm font-bold text-brand-navy underline decoration-brand-green decoration-2 underline-offset-4 transition hover:text-brand-blue focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-navy"
+              >
+                {dict.buttons.requestQuote}
+                <ArrowRight class="h-4 w-4" aria-hidden="true" />
+              </a>
+            </div>
           </article>
         );
       })}
     </div>
   </div>
 </section>
+
+{showComplementary && (
+  <section class="section-pad border-y border-brand-border/70 bg-brand-soft/70">
+    <div class="section-shell">
+      <div class="mx-auto max-w-3xl text-center">
+        <span class="eyebrow">{dict.complementaryServices.eyebrow}</span>
+        <h2 class="mt-4 text-3xl font-black tracking-tight text-brand-navy sm:text-4xl">{dict.complementaryServices.title}</h2>
+        <p class="mt-4 text-lg leading-8 text-brand-slate">{dict.complementaryServices.copy}</p>
+      </div>
+
+      <div class="mt-12 grid gap-6 md:grid-cols-2">
+        {dict.complementaryServices.items.map((service) => (
+          <article class="card-surface h-full p-7">
+            <h3 class="text-xl font-bold text-brand-navy">{service.title}</h3>
+            <p class="mt-3 text-base leading-7 text-brand-slate">{service.description}</p>
+          </article>
+        ))}
+      </div>
+      <p class="mx-auto mt-8 max-w-3xl text-center text-sm leading-6 text-brand-slate">{dict.complementaryServices.note}</p>
+    </div>
+  </section>
+)}

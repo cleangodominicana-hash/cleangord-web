@@ -2,7 +2,9 @@ import { routeSlugs, type Locale, type RouteKey } from "./config";
 
 export type ServiceItem = {
   title: string;
+  summary: string;
   description: string;
+  imageAlt: string;
   icon: string;
 };
 
@@ -20,6 +22,7 @@ export type Translation = {
     callNow: string;
     viewServices: string;
     sendRequest: string;
+    requestQuote: string;
   };
   hero: {
     eyebrow: string;
@@ -34,8 +37,17 @@ export type Translation = {
     eyebrow: string;
     title: string;
     copy: string;
+    photoPending: string;
+    detailsLabel: string;
   };
   services: ServiceItem[];
+  complementaryServices: {
+    eyebrow: string;
+    title: string;
+    copy: string;
+    items: { title: string; description: string }[];
+    note: string;
+  };
   why: {
     eyebrow: string;
     title: string;
@@ -133,10 +145,11 @@ export const dictionaries: Record<Locale, Translation> = {
       { key: "contact", label: "Contact" },
     ],
     buttons: {
-      whatsapp: "Message us on WhatsApp",
+      whatsapp: "Contact us on WhatsApp",
       callNow: "Call now",
       viewServices: "View services",
       sendRequest: "Send request",
+      requestQuote: "Request a quote",
     },
     hero: {
       eyebrow: "Your property, our priority",
@@ -156,17 +169,30 @@ export const dictionaries: Record<Locale, Translation> = {
     },
     servicesSection: {
       eyebrow: "Our services",
-      title: "Cleaning solutions built for property owners and hosts",
-      copy: "From quick Airbnb turnovers to deep cleaning and scheduled care, every service is designed for consistency and peace of mind.",
+      title: "Cleaning services for homes, rentals, and managed properties",
+      copy: "Choose the support that fits your property and request a quote based on its spaces, condition, and cleaning needs.",
+      photoPending: "Approved photo pending",
+      detailsLabel: "Service details",
     },
     services: [
-      { title: "Airbnb Cleaning", description: "Fast and professional turnovers to welcome every guest with confidence.", icon: "🛏️" },
-      { title: "Villa Cleaning", description: "Premium care for high-end villas that need spotless presentation.", icon: "🏡" },
-      { title: "Apartment Cleaning", description: "Impeccable spaces for living, renting, or receiving guests.", icon: "🏢" },
-      { title: "Deep Cleaning", description: "Detailed cleaning and disinfection for a full property reset.", icon: "✨" },
-      { title: "Scheduled Cleaning", description: "Weekly, biweekly, or monthly cleaning plans tailored to your operation.", icon: "📅" },
-      { title: "Light Maintenance", description: "Practical support to keep your property functional and cared for.", icon: "🛠️" },
+      { title: "Airbnb & Vacation Rental Cleaning", summary: "Professional cleaning and careful presentation for vacation rentals, including hotel-style beds, property condition updates, and supply or laundry coordination when requested.", description: "Complete cleaning of bedrooms, bathrooms, kitchens, floors, and windows, with hotel-style bed presentation and careful property organization. When requested, we can document the property's condition, report issues, restock supplies, and coordinate laundry.", imageAlt: "Clean and prepared vacation rental bedroom with a hotel-style bed", icon: "🛏️" },
+      { title: "Villa & Apartment Cleaning", summary: "One-time or recurring cleaning for villas, apartments, and private homes, with optional ventilation, visual inspections, and photo updates during longer absences.", description: "One-time or recurring cleaning for owners, residents, and property managers, covering bathrooms, kitchens, bedrooms, floors, windows, and surfaces. Visits during longer absences can also include ventilation, a basic visual inspection, and photo updates.", imageAlt: "Clean and well-presented interior of a modern villa or apartment", icon: "🏡" },
+      { title: "Post-Construction Cleaning", summary: "Detailed cleaning after construction or renovation, focused on dust, floors, windows, bathrooms, surfaces, and light residue to prepare the property for use.", description: "Cleaning for newly built or renovated properties, focused on construction dust, floors, windows, bathrooms, surfaces, and light debris so the space is ready to occupy. Cement residue treatment and floor polishing are evaluated according to each surface.", imageAlt: "Professional cleaning of a property after construction or renovation", icon: "✨" },
+      { title: "Common Area Cleaning", summary: "Cleaning for hallways, stairs, elevators, parking areas, and shared spaces in residential communities, condominiums, and buildings, with recurring visits available.", description: "Cleaning for residential communities, condominiums, and buildings, including hallways, stairs, elevators, parking areas, circulation spaces, and shared areas around pools. Recurring visits can be arranged according to the property's needs.", imageAlt: "Clean common area in a residential building", icon: "🏢" },
+      { title: "Office Cleaning", summary: "Cleaning options for offices and shared workspaces, covering surfaces, floors, bathrooms, windows, and common areas according to the needs of each space.", description: "Cleaning support available for evaluation for offices and shared workspaces, including surfaces, floors, bathrooms, windows, and common areas. Contact us to discuss the space, preferred schedule, and service requirements.", imageAlt: "Clean, organized, and professional office workspace", icon: "🧹" },
     ],
+    complementaryServices: {
+      eyebrow: "Additional options",
+      title: "Coordinated solutions for your property",
+      copy: "Tell us what your property needs. We will confirm the scope and coordinate specialized support when required.",
+      items: [
+        { title: "Deep cleaning", description: "Detailed cleaning for properties that need more extensive attention." },
+        { title: "Mattresses, furniture & upholstery", description: "Cleaning of mattresses, upholstered furniture, and fabrics, including stain treatment when appropriate for the material." },
+        { title: "Laundry & supplies", description: "Laundry coordination plus restocking and management of property supplies." },
+        { title: "Specialized property care", description: "Preventive air-conditioning cleaning and maintenance, pool cleaning and maintenance, gardening, and floor polishing." },
+      ],
+      note: "Some specialized services are coordinated with specialist collaborators and are confirmed after evaluating the request.",
+    },
     why: {
       eyebrow: "Why choose us",
       title: "A cleaner property. Less stress. Better guest experience.",
@@ -208,9 +234,9 @@ export const dictionaries: Record<Locale, Translation> = {
       title: "Everything clear before you hire us",
     },
     faqs: [
-      { question: "Do you work with Airbnb properties?", answer: "Yes. We focus on turnovers, between-booking cleanings, and preparing properties for incoming guests." },
+      { question: "Do you work with Airbnb properties?", answer: "Yes. We clean and prepare vacation rentals, including bedrooms, bathrooms, kitchens, floors, windows, beds, and the overall presentation of the property." },
       { question: "Do you service villas and apartments?", answer: "Yes. We work with villas, apartments, vacation rentals, and residential properties in Punta Cana and nearby areas." },
-      { question: "Do you offer scheduled service?", answer: "Yes. We can arrange weekly, biweekly, or monthly visits based on your needs." },
+      { question: "Can I arrange recurring cleaning visits?", answer: "Yes. We can coordinate recurring visits according to how the property is used and the cleaning support it needs." },
       { question: "How can I request a quote?", answer: "You can message us on WhatsApp or fill out the contact form. We will get back to you as soon as possible." },
     ],
     cta: {
@@ -247,11 +273,11 @@ export const dictionaries: Record<Locale, Translation> = {
         heroCopy: "A conversion-focused local cleaning brand built to help you attract guests, protect your reviews, and keep your property ready.",
       },
       services: {
-        title: "Services | CleanGo Punta Cana",
-        description: "Explore Airbnb cleaning, villa cleaning, apartment cleaning, deep cleaning, and scheduled cleaning services in Punta Cana.",
+        title: "Cleaning Services in Punta Cana | Clean GO",
+        description: "Cleaning services in Punta Cana for Airbnb rentals, villas, apartments, post-construction spaces, common areas, and offices.",
         heroEyebrow: "Services",
-        heroTitle: "Cleaning services tailored to Airbnb hosts, villas, and managed properties",
-        heroCopy: "Every service is designed to improve presentation, save time, and keep your operation running smoothly.",
+        heroTitle: "Cleaning services for vacation rentals, homes, and managed properties",
+        heroCopy: "From property presentation to recurring care, we tailor each quote to the space and the cleaning support you need.",
       },
       coverage: {
         title: "Coverage in Punta Cana | CleanGo",
@@ -269,7 +295,7 @@ export const dictionaries: Record<Locale, Translation> = {
       },
       contact: {
         title: "Contact CleanGo | Punta Cana Cleaning Services",
-        description: "Contact CleanGo to schedule Airbnb cleaning, villa cleaning, apartment cleaning, or deep cleaning services in Punta Cana.",
+        description: "Contact Clean GO to request a tailored quote for residential, vacation rental, or property cleaning services in Punta Cana.",
         heroEyebrow: "Contact",
         heroTitle: "Tell us about your property",
         heroCopy: "Let us know what kind of cleaning support you need and we will help you coordinate the best next step.",
@@ -303,10 +329,11 @@ export const dictionaries: Record<Locale, Translation> = {
       { key: "contact", label: "Contacto" },
     ],
     buttons: {
-      whatsapp: "Escríbenos por WhatsApp",
+      whatsapp: "Contactar por WhatsApp",
       callNow: "Llámanos ahora",
       viewServices: "Ver servicios",
       sendRequest: "Enviar solicitud",
+      requestQuote: "Solicitar cotización",
     },
     hero: {
       eyebrow: "Tu propiedad, nuestra prioridad",
@@ -326,17 +353,30 @@ export const dictionaries: Record<Locale, Translation> = {
     },
     servicesSection: {
       eyebrow: "Nuestros servicios",
-      title: "Soluciones de limpieza pensadas para propietarios y anfitriones",
-      copy: "Desde limpiezas rápidas entre reservas de Airbnb hasta limpieza profunda y servicio programado, cada solución está diseñada para darte consistencia y tranquilidad.",
+      title: "Servicios de limpieza para viviendas, alojamientos y propiedades administradas",
+      copy: "Elige el apoyo que necesita tu propiedad y solicita una cotización según sus espacios, condiciones y necesidades de limpieza.",
+      photoPending: "Fotografía aprobada pendiente",
+      detailsLabel: "Detalles del servicio",
     },
     services: [
-      { title: "Limpieza de Airbnb", description: "Limpiezas rápidas y profesionales entre reservas para recibir huéspedes con confianza.", icon: "🛏️" },
-      { title: "Limpieza de Villas", description: "Cuidado premium para villas de alto nivel que necesitan una presentación impecable.", icon: "🏡" },
-      { title: "Limpieza de Apartamentos", description: "Espacios impecables para vivir, alquilar o recibir visitas.", icon: "🏢" },
-      { title: "Limpieza Profunda", description: "Limpieza detallada y desinfección para una renovación completa del espacio.", icon: "✨" },
-      { title: "Servicios Programados", description: "Planes semanales, quincenales o mensuales adaptados a tu operación.", icon: "📅" },
-      { title: "Mantenimiento Ligero", description: "Soporte práctico para mantener tu propiedad funcional y cuidada.", icon: "🛠️" },
+      { title: "Limpieza de Airbnb y Alquileres Vacacionales", summary: "Limpieza profesional y presentación cuidada de alojamientos vacacionales, incluyendo camas estilo hotelero, documentación del inmueble y coordinación de insumos o lavandería cuando se solicite.", description: "Limpieza completa de habitaciones, baños, cocina, pisos y cristales, con preparación de camas estilo hotelero y cuidado de la presentación. Cuando se solicita, podemos documentar el estado de la propiedad, comunicar incidencias, reponer insumos y coordinar la lavandería.", imageAlt: "Habitación limpia y preparada para alquiler vacacional con cama estilo hotelero", icon: "🛏️" },
+      { title: "Limpieza de Villas y Apartamentos", summary: "Limpiezas puntuales o recurrentes para villas, apartamentos y viviendas particulares, con ventilación, inspección visual y documentación fotográfica opcionales durante ausencias prolongadas.", description: "Limpiezas puntuales o recurrentes para propietarios, residentes y administradores, incluyendo baños, cocina, habitaciones, pisos, cristales y superficies. Durante ausencias prolongadas, las visitas también pueden incluir ventilación, inspección visual básica y documentación fotográfica.", imageAlt: "Interior limpio y bien presentado de una villa o apartamento moderno", icon: "🏡" },
+      { title: "Limpieza Postobra", summary: "Limpieza detallada después de construcciones o remodelaciones, enfocada en polvo, pisos, cristales, baños, superficies y residuos ligeros para preparar la propiedad.", description: "Limpieza para propiedades recién construidas o remodeladas, enfocada en polvo de construcción, pisos, cristales, baños, superficies y residuos ligeros para dejar el espacio preparado para habitar. Los restos de cemento y el pulido se evalúan según cada superficie.", imageAlt: "Limpieza profesional de una propiedad después de construcción o remodelación", icon: "✨" },
+      { title: "Limpieza de Áreas Comunes", summary: "Limpieza de pasillos, escaleras, ascensores, parqueos y espacios compartidos en residenciales, condominios y edificios, con posibilidad de coordinar visitas periódicas.", description: "Limpieza para residenciales, condominios y edificios, incluyendo pasillos, escaleras, ascensores, parqueos, zonas de circulación y espacios compartidos alrededor de piscinas. Las visitas periódicas se coordinan según las necesidades del inmueble.", imageAlt: "Área común limpia en un edificio residencial", icon: "🏢" },
+      { title: "Limpieza de Oficinas", summary: "Opciones de limpieza para oficinas y espacios de trabajo, incluyendo superficies, pisos, baños, cristales y áreas comunes según las necesidades de cada espacio.", description: "Servicio disponible para evaluación en oficinas y espacios de trabajo compartidos, con limpieza de superficies, pisos, baños, cristales y áreas comunes. Contáctanos para conversar sobre el espacio, el horario preferido y los requisitos del servicio.", imageAlt: "Espacio de oficina limpio, organizado y profesional", icon: "🧹" },
     ],
+    complementaryServices: {
+      eyebrow: "Opciones adicionales",
+      title: "Soluciones coordinadas para tu propiedad",
+      copy: "Cuéntanos qué necesita tu propiedad. Confirmaremos el alcance y coordinaremos apoyo especializado cuando sea necesario.",
+      items: [
+        { title: "Limpieza profunda", description: "Limpieza detallada para propiedades que requieren una atención más amplia." },
+        { title: "Colchones, muebles y tapicerías", description: "Limpieza de colchones, muebles tapizados y textiles, con tratamiento de manchas cuando sea adecuado para el material." },
+        { title: "Lavandería e insumos", description: "Coordinación de lavandería, reposición y gestión de insumos para la propiedad." },
+        { title: "Cuidado especializado", description: "Limpieza y mantenimiento preventivo de aires acondicionados, limpieza y mantenimiento de piscinas, jardinería y pulido de pisos." },
+      ],
+      note: "Algunos servicios especializados se coordinan con colaboradores y se confirman después de evaluar la solicitud.",
+    },
     why: {
       eyebrow: "Por qué elegirnos",
       title: "Una propiedad más limpia, menos estrés y mejor experiencia para tus huéspedes",
@@ -378,9 +418,9 @@ export const dictionaries: Record<Locale, Translation> = {
       title: "Todo claro antes de contratarnos",
     },
     faqs: [
-      { question: "¿Trabajan con propiedades Airbnb?", answer: "Sí. Nos enfocamos en limpiezas entre reservas y preparación de la propiedad para la llegada de nuevos huéspedes." },
+      { question: "¿Trabajan con propiedades Airbnb?", answer: "Sí. Limpiamos y preparamos alojamientos vacacionales, incluyendo habitaciones, baños, cocina, pisos, cristales, camas y la presentación general de la propiedad." },
       { question: "¿Atienden villas y apartamentos?", answer: "Sí. Trabajamos con villas, apartamentos, alquileres vacacionales y propiedades residenciales en Punta Cana y zonas cercanas." },
-      { question: "¿Ofrecen servicio programado?", answer: "Sí. Podemos coordinar visitas semanales, quincenales o mensuales según la necesidad de cada cliente." },
+      { question: "¿Puedo coordinar visitas de limpieza recurrentes?", answer: "Sí. Podemos coordinar visitas recurrentes según el uso de la propiedad y el apoyo de limpieza que necesite." },
       { question: "¿Cómo solicito una cotización?", answer: "Puedes escribirnos por WhatsApp o completar el formulario de contacto. Te responderemos lo antes posible." },
     ],
     cta: {
@@ -417,11 +457,11 @@ export const dictionaries: Record<Locale, Translation> = {
         heroCopy: "Una marca local creada para atraer clientes, dar confianza y mantener tu propiedad lista para impresionar.",
       },
       services: {
-        title: "Servicios | CleanGo Punta Cana",
-        description: "Conoce nuestros servicios de limpieza para Airbnb, villas, apartamentos, limpieza profunda y servicio programado en Punta Cana.",
+        title: "Servicios de limpieza en Punta Cana | Clean GO",
+        description: "Servicios de limpieza en Punta Cana para Airbnb, villas, apartamentos, propiedades postobra, áreas comunes y oficinas.",
         heroEyebrow: "Servicios",
-        heroTitle: "Servicios de limpieza pensados para anfitriones de Airbnb, villas y propiedades administradas",
-        heroCopy: "Cada servicio está diseñado para mejorar la presentación, ahorrarte tiempo y mantener tu operación bajo control.",
+        heroTitle: "Servicios de limpieza para alojamientos, viviendas y propiedades administradas",
+        heroCopy: "Desde la presentación de la propiedad hasta su cuidado recurrente, adaptamos cada cotización al espacio y al apoyo que necesitas.",
       },
       coverage: {
         title: "Cobertura en Punta Cana | CleanGo",
@@ -439,7 +479,7 @@ export const dictionaries: Record<Locale, Translation> = {
       },
       contact: {
         title: "Contacto CleanGo | Limpieza en Punta Cana",
-        description: "Contacta a CleanGo para coordinar limpieza de Airbnb, villas, apartamentos o limpieza profunda en Punta Cana.",
+        description: "Contacta a Clean GO para solicitar una cotización personalizada de limpieza residencial, vacacional o de propiedades en Punta Cana.",
         heroEyebrow: "Contacto",
         heroTitle: "Cuéntanos sobre tu propiedad",
         heroCopy: "Déjanos saber qué tipo de apoyo necesitas y te ayudaremos a coordinar el siguiente paso ideal.",

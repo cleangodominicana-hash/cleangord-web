@@ -3,19 +3,19 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 export const serviceLabels = {
   en: {
     'airbnb-cleaning': 'Airbnb Cleaning',
-    'villa-cleaning': 'Villa Cleaning',
-    'apartment-cleaning': 'Apartment Cleaning',
-    'deep-cleaning': 'Deep Cleaning',
-    'scheduled-cleaning': 'Scheduled Cleaning',
-    'light-maintenance': 'Light Maintenance'
+    'villa-apartment-cleaning': 'Villa & Apartment Cleaning',
+    'post-construction-cleaning': 'Post-Construction Cleaning',
+    'common-area-cleaning': 'Common Area Cleaning',
+    'office-cleaning': 'Office Cleaning',
+    'other-service': 'Other Service or Inquiry'
   },
   es: {
     'airbnb-cleaning': 'Limpieza de Airbnb',
-    'villa-cleaning': 'Limpieza de Villas',
-    'apartment-cleaning': 'Limpieza de Apartamentos',
-    'deep-cleaning': 'Limpieza Profunda',
-    'scheduled-cleaning': 'Servicios Programados',
-    'light-maintenance': 'Mantenimiento Ligero'
+    'villa-apartment-cleaning': 'Limpieza de Villas y Apartamentos',
+    'post-construction-cleaning': 'Limpieza Postobra',
+    'common-area-cleaning': 'Limpieza de Áreas Comunes',
+    'office-cleaning': 'Limpieza de Oficinas',
+    'other-service': 'Otro Servicio o Consulta'
   }
 } as const;
 
