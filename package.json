@@ -10,7 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "node --experimental-strip-types --test tests/contact.test.mjs tests/contact-form.test.mjs tests/whatsapp.test.mjs",
+    "test": "node --experimental-strip-types --test tests/contact.test.mjs tests/contact-form.test.mjs tests/whatsapp.test.mjs tests/home-content.test.mjs tests/seo.test.mjs tests/airbnb-landing.test.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

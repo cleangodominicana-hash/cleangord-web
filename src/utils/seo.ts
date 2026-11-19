@@ -31,6 +31,13 @@ export function organizationSchema(locale: Locale, description: string) {
         },
         areaServed: siteSettings.areas,
         availableLanguage: locale === 'es' ? ['Spanish', 'English'] : ['English', 'Spanish'],
+        // Mirrors the schedule published in the footer (siteSettings.schedule).
+        openingHoursSpecification: {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: siteSettings.openingHours.dayOfWeek,
+          opens: siteSettings.openingHours.opens,
+          closes: siteSettings.openingHours.closes
+        },
         sameAs: socialLinks.map(([, url]) => url)
       },
       {
@@ -45,5 +52,20 @@ export function organizationSchema(locale: Locale, description: string) {
         }
       }
     ]
+  };
+}
+
+// Built exclusively from the FAQ entries rendered on the page (dict.faqs).
+export function faqSchema(faqs: { question: string; answer: string }[]) {
+  return {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer
+      }
+    }))
   };
 }
