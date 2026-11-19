@@ -2,7 +2,7 @@
 import { Mail, MapPin, PhoneCall } from '@lucide/astro';
 import type { Locale } from '../i18n/config';
 import { serviceIds, serviceLabels } from '../config/contact';
-import { getPath, siteSettings, t } from '../i18n/ui';
+import { getPath, getWhatsappUrl, siteSettings, t } from '../i18n/ui';
 import { analyticsConfig } from '../config/analytics';
 
 interface Props {
@@ -11,6 +11,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const dict = t(locale);
+const whatsappIcon = '/images/whatsapp.svg';
 const formCopy = locale === 'es'
   ? {
       servicePlaceholder: 'Selecciona un servicio',
@@ -67,6 +68,15 @@ const formCopy = locale === 'es'
           <p class="text-brand-slate">{dict.footer.address}</p>
         </div>
       </div>
+      <a
+        href={getWhatsappUrl(locale)}
+        target="_blank"
+        rel="noreferrer"
+        class="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-brand-green px-6 py-3 text-center text-sm font-bold leading-5 text-brand-navy transition hover:bg-brand-navy hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy sm:w-fit"
+      >
+        <img src={whatsappIcon} alt="" width="16" height="16" class="h-4 w-4 shrink-0 object-contain" aria-hidden="true" />
+        <span>{dict.buttons.whatsappQuoteShort}</span>
+      </a>
     </div>
   </div>
 

@@ -1,5 +1,5 @@
 ---
-import { BadgeCheck, Camera, Clock3, MapPin, ShieldCheck, Sparkles } from '@lucide/astro';
+import { BadgeCheck, ClipboardCheck, Clock3, MapPin, ShieldCheck, Sparkles } from '@lucide/astro';
 import type { Locale } from '../i18n/config';
 import { t } from '../i18n/ui';
 
@@ -9,7 +9,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const dict = t(locale);
-const statIcons = [Sparkles, Clock3, Camera, MapPin];
+const statIcons = [Sparkles, Clock3, ClipboardCheck, MapPin];
 ---
 
 <section class="section-pad bg-brand-soft/70">

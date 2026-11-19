@@ -72,6 +72,23 @@ test('header, hero, cta and footer build their whatsapp links from getWhatsappUr
   }
 });
 
+test('contact page offers a single whatsapp quote cta built from getWhatsappUrl', async () => {
+  const [form, translations] = await Promise.all([
+    source('src/components/ContactForm.astro'),
+    source('src/i18n/ui.ts')
+  ]);
+  assert.equal((form.match(/getWhatsappUrl\(locale\)/g) ?? []).length, 1, 'exactly one whatsapp cta on the contact page');
+  assert.match(form, /href=\{getWhatsappUrl\(locale\)\}/);
+  assert.doesNotMatch(form, /wa\.me\/[0-9]/);
+  assert.match(form, /\{dict\.buttons\.whatsappQuoteShort\}/);
+  assert.match(translations, /whatsappQuoteShort: "Get a Quote on WhatsApp"/);
+  assert.match(translations, /whatsappQuoteShort: "Cotizar por WhatsApp"/);
+  // The cta sits inside the region GA4 already tracks for contact_click.
+  const region = form.indexOf('data-analytics-location="contact_details"');
+  const cta = form.indexOf('dict.buttons.whatsappQuoteShort');
+  assert.ok(region !== -1 && cta > region, 'whatsapp cta is inside the tracked contact_details region');
+});
+
 test('hero leads with the bilingual whatsapp quote CTA before the benefit cards', async () => {
   const [hero, translations] = await Promise.all([
     source('src/components/Hero.astro'),

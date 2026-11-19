@@ -21,8 +21,11 @@ export type Translation = {
   buttons: {
     whatsapp: string;
     whatsappQuote: string;
+    whatsappQuoteShort: string;
     callNow: string;
     viewServices: string;
+    viewCoverage: string;
+    airbnbDetails: string;
     sendRequest: string;
     requestQuote: string;
   };
@@ -82,6 +85,22 @@ export type Translation = {
     title: string;
     copy: string;
   };
+  airbnbLanding: {
+    audienceTitle: string;
+    audienceCopy: string;
+    scopeTitle: string;
+    scopeCopy: string;
+    scopeItems: { title: string; copy: string }[];
+    coordinationTitle: string;
+    coordinationCopy: string;
+    coordinationSteps: { title: string; copy: string }[];
+    additionalTitle: string;
+    additionalCopy: string;
+    coverageTitle: string;
+    coverageCopy: string;
+    finalTitle: string;
+    finalCopy: string;
+  };
   contact: {
     title: string;
     copy: string;
@@ -119,6 +138,11 @@ export const siteSettings = {
   email: "cleangodominicana@gmail.com",
   address: "Punta Cana, Dominican Republic",
   schedule: "Mon - Sun: 7:00 AM - 7:00 PM",
+  openingHours: {
+    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    opens: "07:00",
+    closes: "19:00"
+  },
   areas: ["Punta Cana", "Bávaro", "Cap Cana", "Verón"],
   social: {
     facebook: "#",
@@ -153,8 +177,11 @@ export const dictionaries: Record<Locale, Translation> = {
     buttons: {
       whatsapp: "Contact us on WhatsApp",
       whatsappQuote: "Get a cleaning quote on WhatsApp",
+      whatsappQuoteShort: "Get a Quote on WhatsApp",
       callNow: "Call now",
       viewServices: "View services",
+      viewCoverage: "View coverage",
+      airbnbDetails: "Explore the service",
       sendRequest: "Send request",
       requestQuote: "Request a quote",
     },
@@ -207,7 +234,7 @@ export const dictionaries: Record<Locale, Translation> = {
       stats: [
         { title: "Airbnb Ready", copy: "Fast preparation between reservations" },
         { title: "Quick response", copy: "Timely communication and scheduling" },
-        { title: "Before / After", copy: "Visual proof that builds trust" },
+        { title: "Property Checks & Reports", copy: "We inspect the property and report any issues identified during the service." },
         { title: "Punta Cana", copy: "Local service in key areas" },
       ],
     },
@@ -250,6 +277,31 @@ export const dictionaries: Record<Locale, Translation> = {
       title: "Ready to keep your property spotless?",
       copy: "Send us a message today and get fast help coordinating your cleaning service.",
     },
+    airbnbLanding: {
+      audienceTitle: "Cleaning support for owners and property managers",
+      audienceCopy: "We coordinate vacation rental cleaning between reservations for individual properties and portfolios with multiple listings. Each quote reflects the property, its use, and the agreed service requirements.",
+      scopeTitle: "What can be included",
+      scopeCopy: "The service is coordinated around the property and the presentation expected for incoming guests.",
+      scopeItems: [
+        { title: "Cleaning between stays", copy: "Cleaning of bedrooms, bathrooms, kitchens, floors, and surfaces before the next guest arrival." },
+        { title: "Property presentation", copy: "Organization of the space and bed preparation according to the requirements agreed with the owner or manager." },
+        { title: "Property checks and reports", copy: "Visual inspection and communication of issues identified during the service, with follow-up photos or videos when included in the agreed coordination." },
+        { title: "Supplies by agreement", copy: "Restocking of agreed property supplies when the owner or manager has arranged the required inventory and instructions." },
+      ],
+      coordinationTitle: "A clear coordination process",
+      coordinationCopy: "We define the practical details before service so the cleaning team can follow the property's instructions.",
+      coordinationSteps: [
+        { title: "1. Share the property details", copy: "Tell us the location, property type, number of spaces, preferred date or frequency, and any access requirements." },
+        { title: "2. Confirm the agreed scope", copy: "We review cleaning priorities, presentation instructions, supplies, reporting, and any additional services to be quoted." },
+        { title: "3. Coordinate each service", copy: "The visit follows the agreed instructions, with communication about relevant issues identified at the property." },
+      ],
+      additionalTitle: "Additional services are quoted separately",
+      additionalCopy: "Laundry, deep cleaning, upholstery care, specialized maintenance, and other extraordinary tasks are not automatically included. We confirm their scope and availability for each request.",
+      coverageTitle: "Coverage for vacation rentals",
+      coverageCopy: "We serve properties in Punta Cana, Bávaro, Cap Cana, Verón, and the nearby areas covered by Clean GO. Share the residential complex or location so we can confirm coordination.",
+      finalTitle: "Request an Airbnb cleaning quote",
+      finalCopy: "Tell us about the property, location, and preferred date or frequency. You can contact us on WhatsApp or use the quote form.",
+    },
     contact: {
       title: "Let’s talk about your property",
       copy: "Message us to schedule a cleaning, ask about availability, or request information about scheduled services in Punta Cana.",
@@ -289,6 +341,13 @@ export const dictionaries: Record<Locale, Translation> = {
         heroEyebrow: "Services",
         heroTitle: "Cleaning services for vacation rentals, homes, and managed properties",
         heroCopy: "From property presentation to recurring care, we tailor each quote to the space and the cleaning support you need.",
+      },
+      airbnbService: {
+        title: "Airbnb Cleaning Services in Punta Cana | Clean GO",
+        description: "Airbnb and vacation rental cleaning in Punta Cana, Bávaro, and Cap Cana, with guest-ready preparation, property checks, and coordinated reporting.",
+        heroEyebrow: "Airbnb & vacation rental cleaning",
+        heroTitle: "Airbnb cleaning services in Punta Cana",
+        heroCopy: "Cleaning and guest-ready preparation between reservations, coordinated with owners and property managers according to each property's needs.",
       },
       coverage: {
         title: "Coverage in Punta Cana | CleanGo",
@@ -342,8 +401,11 @@ export const dictionaries: Record<Locale, Translation> = {
     buttons: {
       whatsapp: "Contactar por WhatsApp",
       whatsappQuote: "Cotizar limpieza por WhatsApp",
+      whatsappQuoteShort: "Cotizar por WhatsApp",
       callNow: "Llámanos ahora",
       viewServices: "Ver servicios",
+      viewCoverage: "Ver cobertura",
+      airbnbDetails: "Conocer el servicio",
       sendRequest: "Enviar solicitud",
       requestQuote: "Solicitar cotización",
     },
@@ -396,7 +458,7 @@ export const dictionaries: Record<Locale, Translation> = {
       stats: [
         { title: "Lista para Airbnb", copy: "Preparación rápida entre reservas" },
         { title: "Respuesta ágil", copy: "Comunicación y coordinación a tiempo" },
-        { title: "Antes / después", copy: "Evidencia visual que genera confianza" },
+        { title: "Supervisión y reportes", copy: "Inspeccionamos la propiedad y comunicamos cualquier incidencia detectada durante el servicio." },
         { title: "Punta Cana", copy: "Servicio local en zonas clave" },
       ],
     },
@@ -439,6 +501,31 @@ export const dictionaries: Record<Locale, Translation> = {
       title: "¿Listo para tener tu propiedad impecable?",
       copy: "Escríbenos hoy mismo y recibe ayuda rápida para coordinar tu servicio de limpieza.",
     },
+    airbnbLanding: {
+      audienceTitle: "Apoyo para propietarios y administradores",
+      audienceCopy: "Coordinamos la limpieza de alojamientos vacacionales entre reservas para propiedades individuales y administradores con varios alojamientos. Cada cotización considera la propiedad, su uso y los requerimientos acordados.",
+      scopeTitle: "Qué puede incluir el servicio",
+      scopeCopy: "Coordinamos el servicio según las características de la propiedad y la presentación esperada para recibir a los próximos huéspedes.",
+      scopeItems: [
+        { title: "Limpieza entre reservas", copy: "Limpieza de habitaciones, baños, cocina, pisos y superficies antes de la llegada del próximo huésped." },
+        { title: "Presentación de la propiedad", copy: "Organización de los espacios y preparación de camas según los requerimientos acordados con el propietario o administrador." },
+        { title: "Inspección y reportes", copy: "Inspección visual y comunicación de incidencias detectadas durante el servicio, con fotografías o videos de seguimiento cuando formen parte de la coordinación acordada." },
+        { title: "Insumos según acuerdo", copy: "Reposición de los insumos acordados cuando el propietario o administrador haya coordinado el inventario y las instrucciones necesarias." },
+      ],
+      coordinationTitle: "Un proceso de coordinación claro",
+      coordinationCopy: "Definimos los detalles prácticos antes del servicio para que el equipo pueda seguir las instrucciones de la propiedad.",
+      coordinationSteps: [
+        { title: "1. Comparte los datos de la propiedad", copy: "Indica la ubicación, el tipo de alojamiento, la cantidad de espacios, la fecha o frecuencia y los requisitos de acceso." },
+        { title: "2. Confirmamos el alcance acordado", copy: "Revisamos prioridades de limpieza, presentación, insumos, reportes y servicios adicionales que deban cotizarse." },
+        { title: "3. Coordinamos cada servicio", copy: "La visita sigue las instrucciones acordadas y comunicamos las incidencias relevantes detectadas en la propiedad." },
+      ],
+      additionalTitle: "Los servicios adicionales se cotizan por separado",
+      additionalCopy: "La lavandería, limpieza profunda, cuidado de tapicerías, mantenimiento especializado y otras tareas extraordinarias no están incluidos automáticamente. Confirmamos su alcance y disponibilidad en cada solicitud.",
+      coverageTitle: "Cobertura para alojamientos vacacionales",
+      coverageCopy: "Atendemos propiedades en Punta Cana, Bávaro, Cap Cana, Verón y zonas cercanas dentro de la cobertura de Clean GO. Comparte el residencial o la ubicación para confirmar la coordinación.",
+      finalTitle: "Solicita una cotización de limpieza Airbnb",
+      finalCopy: "Cuéntanos sobre la propiedad, su ubicación y la fecha o frecuencia que necesitas. Puedes escribirnos por WhatsApp o utilizar el formulario.",
+    },
     contact: {
       title: "Hablemos de tu propiedad",
       copy: "Escríbenos para coordinar una limpieza, consultar disponibilidad o solicitar información sobre servicios programados en Punta Cana.",
@@ -478,6 +565,13 @@ export const dictionaries: Record<Locale, Translation> = {
         heroEyebrow: "Servicios",
         heroTitle: "Servicios de limpieza para alojamientos, viviendas y propiedades administradas",
         heroCopy: "Desde la presentación de la propiedad hasta su cuidado recurrente, adaptamos cada cotización al espacio y al apoyo que necesitas.",
+      },
+      airbnbService: {
+        title: "Limpieza de Airbnb en Punta Cana | Clean GO",
+        description: "Limpieza de Airbnb y alquileres vacacionales en Punta Cana, Bávaro y Cap Cana, con preparación para huéspedes, inspección y reportes coordinados.",
+        heroEyebrow: "Limpieza de Airbnb y alquileres vacacionales",
+        heroTitle: "Limpieza de Airbnb en Punta Cana",
+        heroCopy: "Limpieza y preparación entre reservas, coordinada con propietarios y administradores según las necesidades de cada alojamiento.",
       },
       coverage: {
         title: "Cobertura en Punta Cana | CleanGo",

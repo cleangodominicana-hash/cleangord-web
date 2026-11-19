@@ -1,0 +1,12 @@
+---
+import AirbnbServiceLanding from '../../components/AirbnbServiceLanding.astro';
+import MainLayout from '../../layouts/MainLayout.astro';
+import { t } from '../../i18n/ui';
+
+const locale = 'en';
+const dict = t(locale);
+---
+
+<MainLayout title={dict.pages.airbnbService.title} description={dict.pages.airbnbService.description} locale={locale} routeKey="airbnbService">
+  <AirbnbServiceLanding locale={locale} />
+</MainLayout>
