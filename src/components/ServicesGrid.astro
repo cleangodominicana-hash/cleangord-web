@@ -1,6 +1,7 @@
 ---
 import { ArrowRight, BedDouble, BriefcaseBusiness, Building2, House, Sparkles } from '@lucide/astro';
 import type { Locale } from '../i18n/config';
+import { serviceIds } from '../config/contact';
 import { getPath, t } from '../i18n/ui';
 
 interface Props {
@@ -69,7 +70,7 @@ const serviceImages: (string | null)[] = [
                 </details>
               )}
               <a
-                href={getPath(locale, 'contact')}
+                href={`${getPath(locale, 'contact')}?service=${serviceIds[index] ?? 'other-service'}`}
                 class="mt-6 inline-flex w-fit items-center gap-2 rounded-sm text-sm font-bold text-brand-navy underline decoration-brand-green decoration-2 underline-offset-4 transition hover:text-brand-blue focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-navy"
               >
                 {dict.buttons.requestQuote}

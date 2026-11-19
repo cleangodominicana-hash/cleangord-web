@@ -1,4 +1,5 @@
-import { routeSlugs, type Locale, type RouteKey } from "./config";
+import { routeSlugs, type Locale, type RouteKey } from "./config.ts";
+import type { ServiceId } from "../config/contact.ts";
 
 export type ServiceItem = {
   title: string;
@@ -19,6 +20,7 @@ export type Translation = {
   nav: { key: RouteKey; label: string }[];
   buttons: {
     whatsapp: string;
+    whatsappQuote: string;
     callNow: string;
     viewServices: string;
     sendRequest: string;
@@ -92,12 +94,16 @@ export type Translation = {
       email: string;
       phone: string;
       service: string;
+      zone: string;
+      date: string;
       message: string;
     };
     placeholders: {
       name: string;
       email: string;
       phone: string;
+      zone: string;
+      date: string;
       message: string;
     };
   };
@@ -146,6 +152,7 @@ export const dictionaries: Record<Locale, Translation> = {
     ],
     buttons: {
       whatsapp: "Contact us on WhatsApp",
+      whatsappQuote: "Get a cleaning quote on WhatsApp",
       callNow: "Call now",
       viewServices: "View services",
       sendRequest: "Send request",
@@ -155,7 +162,7 @@ export const dictionaries: Record<Locale, Translation> = {
       eyebrow: "Your property, our priority",
       title: "Professional cleaning for Airbnb, villas, and properties in Punta Cana",
       copy: "We help owners, hosts, and property managers keep every space spotless, guest-ready, and aligned with premium standards.",
-      imageAlt: "Bright and spotless property in Punta Cana",
+      imageAlt: "Bright and spotless interior of a freshly cleaned property",
       coverageLabel: "Coverage",
       benefits: [
         { title: "Fast response", copy: "Clear coordination and punctual service" },
@@ -246,8 +253,8 @@ export const dictionaries: Record<Locale, Translation> = {
     contact: {
       title: "Let’s talk about your property",
       copy: "Message us to schedule a cleaning, ask about availability, or request information about scheduled services in Punta Cana.",
-      formTitle: "Request information",
-      formCopy: "Tell us what you need and we will contact you to coordinate the next step.",
+      formTitle: "Request a Cleaning Quote",
+      formCopy: "Tell us what kind of cleaning you need, and we'll contact you to prepare a quote.",
       directTitle: "Direct contact",
       addressLabel: "Address",
       fields: {
@@ -255,12 +262,16 @@ export const dictionaries: Record<Locale, Translation> = {
         email: "Email",
         phone: "Phone",
         service: "Service",
+        zone: "Area or residential complex",
+        date: "Date or frequency",
         message: "Message",
       },
       placeholders: {
         name: "Your name",
         email: "you@email.com",
         phone: "+1 (809) 000-0000",
+        zone: "e.g., Bávaro, Cap Cana",
+        date: "e.g., Dec 15 or weekly",
         message: "Tell us what you need",
       },
     },
@@ -330,6 +341,7 @@ export const dictionaries: Record<Locale, Translation> = {
     ],
     buttons: {
       whatsapp: "Contactar por WhatsApp",
+      whatsappQuote: "Cotizar limpieza por WhatsApp",
       callNow: "Llámanos ahora",
       viewServices: "Ver servicios",
       sendRequest: "Enviar solicitud",
@@ -339,7 +351,7 @@ export const dictionaries: Record<Locale, Translation> = {
       eyebrow: "Tu propiedad, nuestra prioridad",
       title: "Limpieza profesional para Airbnb, villas y propiedades en Punta Cana",
       copy: "Ayudamos a propietarios, anfitriones y administradores a mantener cada espacio impecable, listo para recibir huéspedes y alineado con un estándar premium.",
-      imageAlt: "Propiedad luminosa e impecable en Punta Cana",
+      imageAlt: "Interior luminoso e impecable de una propiedad recién limpiada",
       coverageLabel: "Cobertura",
       benefits: [
         { title: "Respuesta rápida", copy: "Coordinación clara y servicio puntual" },
@@ -430,8 +442,8 @@ export const dictionaries: Record<Locale, Translation> = {
     contact: {
       title: "Hablemos de tu propiedad",
       copy: "Escríbenos para coordinar una limpieza, consultar disponibilidad o solicitar información sobre servicios programados en Punta Cana.",
-      formTitle: "Solicita información",
-      formCopy: "Cuéntanos qué necesitas y te contactaremos para coordinar el siguiente paso.",
+      formTitle: "Solicita tu cotización",
+      formCopy: "Cuéntanos qué tipo de limpieza necesitas y te contactaremos para preparar una cotización.",
       directTitle: "Contacto directo",
       addressLabel: "Dirección",
       fields: {
@@ -439,12 +451,16 @@ export const dictionaries: Record<Locale, Translation> = {
         email: "Correo",
         phone: "Teléfono",
         service: "Servicio",
+        zone: "Zona o residencial",
+        date: "Fecha o frecuencia",
         message: "Mensaje",
       },
       placeholders: {
         name: "Tu nombre",
         email: "tu@email.com",
         phone: "+1 (809) 000-0000",
+        zone: "Ej.: Bávaro, Cap Cana",
+        date: "Ej.: 15 de diciembre o semanal",
         message: "Cuéntanos qué necesitas",
       },
     },
@@ -499,9 +515,26 @@ export function t(locale: Locale) {
   return dictionaries[locale];
 }
 
-export function getWhatsappUrl(locale: Locale) {
-  const message = locale === "es" ? "Hola CleanGo, quiero información sobre sus servicios." : "Hi CleanGo, I would like information about your services.";
-  return `https://wa.me/${siteSettings.whatsappNumber}?text=${encodeURIComponent(message)}`;
+const generalWhatsappMessage: Record<Locale, string> = {
+  en: "Hello, Clean GO. I'd like a cleaning quote.\n\nProperty type:\nArea or residential complex:\nApproximate date:",
+  es: "Hola, Clean GO. Quisiera cotizar un servicio de limpieza.\n\nTipo de propiedad:\nZona o residencial:\nFecha aproximada:"
+};
+
+const serviceWhatsappMessages: Partial<Record<ServiceId, Record<Locale, string>>> = {
+  "airbnb-cleaning": {
+    en: "Hello, Clean GO. I'd like an Airbnb cleaning quote.\n\nArea or residential complex:\nApproximate date:",
+    es: "Hola, Clean GO. Quisiera cotizar limpieza de Airbnb.\n\nZona o residencial:\nFecha aproximada:"
+  },
+  "villa-apartment-cleaning": {
+    en: "Hello, Clean GO. I'd like a villa or apartment cleaning quote.\n\nArea or residential complex:\nApproximate date:",
+    es: "Hola, Clean GO. Quisiera cotizar limpieza de villa o apartamento.\n\nZona o residencial:\nFecha aproximada:"
+  }
+};
+
+export function getWhatsappUrl(locale: Locale, service?: ServiceId) {
+  const message = (service && serviceWhatsappMessages[service]?.[locale]) || generalWhatsappMessage[locale];
+  const number = siteSettings.whatsappNumber.replace(/^\+/, "");
+  return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 }
 
 export function getPath(locale: Locale, route: RouteKey) {

@@ -33,6 +33,8 @@ type ContactPayload = {
   email?: unknown;
   phone?: unknown;
   service?: unknown;
+  zone?: unknown;
+  date?: unknown;
   message?: unknown;
   locale?: unknown;
   company?: unknown;
@@ -122,11 +124,20 @@ export default async function handler(request: VercelRequest, response: VercelRe
   const idempotencyKey = getHeader(request, 'idempotency-key');
   const locale = body.locale;
   const service = body.service;
-  const phoneValid = body.phone === undefined || body.phone === '' || (
-    validText(body.phone, 7, 30) &&
-    PHONE_PATTERN.test(String(body.phone)) &&
-    String(body.phone).replace(/\D/g, '').length >= 7
+  const email = typeof body.email === 'string' ? body.email.trim() : '';
+  const phone = typeof body.phone === 'string' ? body.phone.trim() : '';
+  const emailProvided = body.email !== undefined && body.email !== '';
+  const phoneProvided = body.phone !== undefined && body.phone !== '';
+  const emailValid = !emailProvided || (typeof body.email === 'string' && email.length <= 254 && EMAIL_PATTERN.test(email));
+  const phoneValid = !phoneProvided || (
+    typeof body.phone === 'string' &&
+    phone.length >= 7 && phone.length <= 30 &&
+    PHONE_PATTERN.test(phone) &&
+    phone.replace(/\D/g, '').length >= 7
   );
+  const hasContactMethod = email !== '' || phone !== '';
+  const date = typeof body.date === 'string' ? body.date.trim() : '';
+  const dateValid = body.date === undefined || body.date === '' || (typeof body.date === 'string' && date.length <= 120);
   const submittedAt = typeof body.startedAt === 'number' ? body.startedAt : NaN;
   const elapsed = Date.now() - submittedAt;
 
@@ -135,10 +146,12 @@ export default async function handler(request: VercelRequest, response: VercelRe
   }
   if (
     !validText(body.name, 2, 100) ||
-    !validText(body.email, 3, 254) ||
-    !EMAIL_PATTERN.test(String(body.email)) ||
+    !validText(body.zone, 2, 100) ||
+    !emailValid ||
     !phoneValid ||
-    !validText(body.message, 10, 2_000) ||
+    !hasContactMethod ||
+    !dateValid ||
+    !(body.message === undefined || validText(body.message, 0, 2_000)) ||
     !serviceIds.includes(service as ServiceId) ||
     (locale !== 'en' && locale !== 'es') ||
     !IDEMPOTENCY_PATTERN.test(idempotencyKey)
@@ -152,19 +165,20 @@ export default async function handler(request: VercelRequest, response: VercelRe
   if (!apiKey || !from || !to) return json({ ok: false, error: 'service_unavailable' }, 503);
 
   const name = String(body.name).trim();
-  const email = String(body.email).trim();
-  const phone = typeof body.phone === 'string' ? body.phone.trim() : '';
-  const message = String(body.message).trim();
+  const zone = String(body.zone).trim();
+  const message = typeof body.message === 'string' ? body.message.trim() : '';
   const serviceLabel = serviceLabels[locale][service as ServiceId];
   const text = [
     `Language: ${locale}`,
     `Service: ${serviceLabel}`,
     `Name: ${name}`,
-    `Email: ${email}`,
+    `Email: ${email || 'Not provided'}`,
     `Phone: ${phone || 'Not provided'}`,
+    `Zone: ${zone}`,
+    `Date or frequency: ${date || 'Not provided'}`,
     '',
     'Message:',
-    message
+    message || 'Not provided'
   ].join('\n');
 
   let resendResponse: Response;
@@ -179,7 +193,7 @@ export default async function handler(request: VercelRequest, response: VercelRe
       body: JSON.stringify({
         from,
         to: [to],
-        reply_to: email,
+        ...(email !== '' && { reply_to: email }),
         subject: `Clean GO contact: ${serviceLabel}`,
         text
       })
