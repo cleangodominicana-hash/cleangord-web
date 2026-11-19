@@ -19,7 +19,11 @@ const formCopy = locale === 'es'
       sending: 'Enviando…',
       success: 'Gracias. Recibimos tu solicitud y te responderemos pronto.',
       error: 'No pudimos enviar tu solicitud. Inténtalo de nuevo o contáctanos directamente.',
-      honeypot: 'Empresa (dejar en blanco)'
+      honeypot: 'Empresa (dejar en blanco)',
+      optional: ' (opcional)',
+      contactRequired: 'Agrega tu correo o teléfono para poder contactarte.',
+      contactHint: 'Indica al menos un medio de contacto: correo o teléfono/WhatsApp.',
+      phonePattern: 'Usa solo números, espacios y los símbolos + ( ) - .'
     }
   : {
       servicePlaceholder: 'Select a service',
@@ -28,7 +32,11 @@ const formCopy = locale === 'es'
       sending: 'Sending…',
       success: 'Thank you. We received your request and will reply soon.',
       error: 'We could not send your request. Try again or contact us directly.',
-      honeypot: 'Company (leave blank)'
+      honeypot: 'Company (leave blank)',
+      optional: ' (optional)',
+      contactRequired: 'Add your email or phone number so we can reach you.',
+      contactHint: 'Please provide at least one contact method: email or phone/WhatsApp.',
+      phonePattern: 'Use only numbers, spaces, and the + ( ) - . symbols.'
     };
 ---
 
@@ -73,23 +81,32 @@ const formCopy = locale === 'es'
         <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.name} type="text" name="name" autocomplete="name" minlength="2" maxlength="100" required />
       </label>
       <label class="space-y-2 text-sm font-semibold text-brand-navy">
-        <span>{dict.contact.fields.email}</span>
-        <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.email} type="email" name="email" autocomplete="email" maxlength="254" required />
-      </label>
-      <label class="space-y-2 text-sm font-semibold text-brand-navy">
-        <span>{dict.contact.fields.phone}</span>
-        <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.phone} type="tel" name="phone" autocomplete="tel" minlength="7" maxlength="30" />
-      </label>
-      <label class="space-y-2 text-sm font-semibold text-brand-navy">
         <span>{dict.contact.fields.service}</span>
         <select class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" name="service" required>
           <option value="">{formCopy.servicePlaceholder}</option>
           {serviceIds.map((service) => <option value={service}>{serviceLabels[locale][service]}</option>)}
         </select>
       </label>
+      <label class="space-y-2 text-sm font-semibold text-brand-navy">
+        <span>{dict.contact.fields.zone}</span>
+        <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.zone} type="text" name="zone" minlength="2" maxlength="100" required />
+      </label>
+      <label class="space-y-2 text-sm font-semibold text-brand-navy">
+        <span>{dict.contact.fields.date}{formCopy.optional}</span>
+        <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.date} type="text" name="date" maxlength="120" />
+      </label>
+      <label class="space-y-2 text-sm font-semibold text-brand-navy">
+        <span>{dict.contact.fields.email}{formCopy.optional}</span>
+        <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.email} type="email" name="email" autocomplete="email" maxlength="254" />
+      </label>
+      <label class="space-y-2 text-sm font-semibold text-brand-navy">
+        <span>{dict.contact.fields.phone}{formCopy.optional}</span>
+        <input class="w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.phone} type="tel" name="phone" autocomplete="tel" inputmode="tel" pattern="[+()\d\s.-]{7,30}" title={formCopy.phonePattern} minlength="7" maxlength="30" />
+      </label>
+      <p class="text-sm text-brand-slate sm:col-span-2" data-contact-hint>{formCopy.contactHint}</p>
       <label class="space-y-2 text-sm font-semibold text-brand-navy sm:col-span-2">
-        <span>{dict.contact.fields.message}</span>
-        <textarea class="min-h-36 w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.message} name="message" minlength="10" maxlength="2000" required></textarea>
+        <span>{dict.contact.fields.message}{formCopy.optional}</span>
+        <textarea class="min-h-28 w-full rounded-2xl border border-brand-border px-4 py-3 outline-none ring-0 transition focus:border-brand-blue" placeholder={dict.contact.placeholders.message} name="message" maxlength="2000"></textarea>
       </label>
       <label class="absolute -left-[9999px]" aria-hidden="true">
         <span>{formCopy.honeypot}</span>
@@ -112,12 +129,46 @@ const formCopy = locale === 'es'
   const form = document.querySelector('[data-contact-form]');
   const status = form?.querySelector('[data-form-status]');
   const submitButton = form?.querySelector('button[type="submit"]');
+  const emailField = form?.querySelector('input[name="email"]');
+  const phoneField = form?.querySelector('input[name="phone"]');
+  const serviceField = form?.querySelector('select[name="service"]');
   let startedAt = Date.now();
   let idempotencyKey = crypto.randomUUID();
+
+  // Preselect the service when the URL carries a valid ?service= id; ignore anything else.
+  try {
+    const requestedService = new URLSearchParams(window.location.search).get('service');
+    if (requestedService && serviceField instanceof HTMLSelectElement) {
+      const isKnownService = Array.from(serviceField.options).some((option) => option.value === requestedService);
+      if (isKnownService) serviceField.value = requestedService;
+    }
+  } catch {
+    // A malformed query string never blocks the form.
+  }
+
+  const clearContactValidity = () => {
+    if (emailField instanceof HTMLInputElement) emailField.setCustomValidity('');
+  };
+
+  const hasContactMethod = () => {
+    if (!(emailField instanceof HTMLInputElement) || !(phoneField instanceof HTMLInputElement)) return true;
+    const missing = !emailField.value.trim() && !phoneField.value.trim();
+    emailField.setCustomValidity(missing ? formCopy.contactRequired : '');
+    if (missing) {
+      emailField.focus();
+      emailField.reportValidity();
+      return false;
+    }
+    return true;
+  };
+
+  emailField?.addEventListener('input', clearContactValidity);
+  phoneField?.addEventListener('input', clearContactValidity);
 
   form?.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!(form instanceof HTMLFormElement) || !(submitButton instanceof HTMLButtonElement)) return;
+    if (!hasContactMethod()) return;
 
     submitButton.disabled = true;
     if (status) status.textContent = formCopy.sending;

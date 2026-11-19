@@ -12,6 +12,8 @@ const validPayload = (changes = {}) => ({
   email: 'jane@example.com',
   phone: '',
   service: 'airbnb-cleaning',
+  zone: 'Cap Cana',
+  date: '',
   message: 'I need help with an upcoming turnover.',
   locale: 'en',
   company: '',
@@ -135,10 +137,18 @@ test('rejects invalid fields, service, locale, honeypot, timing, and idempotency
     { name: 'x'.repeat(101) },
     { email: 'not-an-email' },
     { email: `${'x'.repeat(250)}@example.com` },
+    { email: 42 },
     { phone: '123' },
     { phone: 'not-a-phone' },
-    { message: 'short' },
+    { phone: 42 },
+    { email: '', phone: '' },
+    { zone: '' },
+    { zone: 'x'.repeat(101) },
+    { zone: undefined },
+    { date: 'x'.repeat(121) },
+    { date: 42 },
     { message: 'x'.repeat(2_001) },
+    { message: 42 },
     { service: 'custom-service' },
     { locale: 'fr' },
     { company: 'spam company' },
@@ -152,6 +162,50 @@ test('rejects invalid fields, service, locale, honeypot, timing, and idempotency
   }
   assert.equal((await invoke(request(validPayload(), { idempotencyKey: 'bad' }))).statusCode, 400);
   assert.equal((await invoke(request(undefined, { rawBody: 'null' }))).statusCode, 400);
+});
+
+test('accepts a phone-only submission and omits reply_to', async () => {
+  let outbound;
+  globalThis.fetch = async (url, init) => {
+    outbound = { url, init };
+    return new Response(JSON.stringify({ id: 'email-id' }), { status: 200 });
+  };
+  const res = await invoke(request(validPayload({ email: '', phone: '+1 849 381 5983' })));
+  assert.equal(res.statusCode, 200);
+  const email = JSON.parse(outbound.init.body);
+  assert.equal(email.reply_to, undefined);
+  assert.match(email.text, /Email: Not provided/);
+  assert.match(email.text, /Phone: \+1 849 381 5983/);
+  assert.match(email.text, /Zone: Cap Cana/);
+  assert.match(email.text, /Date or frequency: Not provided/);
+});
+
+test('accepts an email-only submission and keeps reply_to', async () => {
+  let outbound;
+  globalThis.fetch = async (url, init) => {
+    outbound = { url, init };
+    return new Response(JSON.stringify({ id: 'email-id' }), { status: 200 });
+  };
+  const res = await invoke(request(validPayload({ email: 'owner@example.com', phone: '' })));
+  assert.equal(res.statusCode, 200);
+  const email = JSON.parse(outbound.init.body);
+  assert.equal(email.reply_to, 'owner@example.com');
+  assert.match(email.text, /Phone: Not provided/);
+});
+
+test('rejects submissions without any contact method', async () => {
+  const res = await invoke(request(validPayload({ email: '', phone: '' })));
+  assert.equal(res.statusCode, 400);
+  assert.deepEqual(res.body, { ok: false, error: 'invalid_fields' });
+});
+
+test('keeps zone required, date and message optional', async () => {
+  assert.equal((await invoke(request(validPayload({ zone: 'Bávaro' })))).statusCode, 200);
+  assert.equal((await invoke(request(validPayload({ date: 'Weekly from December', message: '' })))).statusCode, 200);
+  assert.equal((await invoke(request(validPayload({ date: undefined, message: undefined })))).statusCode, 200);
+  assert.equal((await invoke(request(validPayload({ zone: 'x'.repeat(101) })))).statusCode, 400);
+  assert.equal((await invoke(request(validPayload({ date: 'x'.repeat(121) })))).statusCode, 400);
+  assert.equal((await invoke(request(validPayload({ message: 'x'.repeat(2_001) })))).statusCode, 400);
 });
 
 test('fails safely when server variables are missing', async () => {
